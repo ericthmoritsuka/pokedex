@@ -54,7 +54,8 @@ const pokedex = [
   },
   {
     name: "Pidgey",
-    type: ["normal", "flying"],
+    type: "normal",
+    type2: "flying",
     number: 16,
     hp: 40,
     attack: 45,
@@ -99,6 +100,16 @@ const nome = document.querySelector(".name");
 const numero = document.querySelector(".number");
 const tipo = document.querySelector(".type");
 const card = document.querySelector(".card");
+const imagem = document.querySelector(".image")
+const hp = document.querySelector('.hp')
+const attack = document.querySelector('.attack')
+const defense = document.querySelector('.defense')
+const spattack = document.querySelector('.spattack')
+const spdefense = document.querySelector('.spdefense')
+const speed = document.querySelector('.speed')
+const total = document.querySelector('.total')
+const moves = document.querySelector('.moves')
+
 
 const clickHandler = (event) => {
   event.preventDefault();
@@ -125,6 +136,20 @@ const clickHandler = (event) => {
 
   nome.innerText = pokemon.name;
   numero.innerText = `#${pokemon.number}`;
+  imagem.src = `./img/${pokemon.name}.png`
+  hp.innerText = `HP ${pokemon.hp}`
+  attack.innerText = `ATTACK ${pokemon.attack}`
+  defense.innerText = `DEFENSE ${pokemon.defense}`
+  spattack.innerText = `SP. ATTACK ${pokemon.spattack}`
+  spdefense.innerText = `SP. DEFENSE ${pokemon.spdefense}`
+  speed.innerText = `SPEED ${pokemon.speed}`
+  total.innerText = `TOTAL ${pokemon.total}`
+  console.log(moves, pokemon.moves)
+
+  moves.innerHTML = ''
+  pokemon.moves.map((move) => {
+    moves.innerHTML += `<li>${move}</li>`
+  })
 };
 
 //adicionando eventos

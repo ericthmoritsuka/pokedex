@@ -58,18 +58,18 @@ h3 {
   right: 0;
   left: 0;
   bottom: 0;
-  opacity: 0.75;
+  opacity: 0.65;
   z-index: -1;
 }
 
 .card {
   /* display: none; */
   box-shadow: inset 0 -350px white;
-  border-radius: 5px;
   padding: 30px;
   color: white;
   max-width: 300px;
   grid-row: 3;
+  place-self: center;
 }
 
 .card.ativo {
@@ -85,6 +85,15 @@ h3 {
 .card.water {
   background-color: #76befe;
 }
+.card.bug {
+  background-color: #8fcc6c;
+}
+.card.eletric {
+  background-color: #FCC719;
+}
+.card.normal {
+  background-color: #cec698;
+}
 
 .uppercard {
   display: grid;
@@ -93,7 +102,7 @@ h3 {
   align-items: center;
 }
 
-.pokemon {
+.image {
   grid-column: 1/-1;
   place-self: center;
 }
@@ -124,6 +133,15 @@ h3 {
 .type.water {
   background-color: #5e97cb;
 }
+.type.bug{
+  background-color: #597f43;
+}
+.type.normal{
+  background-color: #67634c;
+}
+.type.eletric{
+  background-color: #c99e13;
+}
 
 .number {
   background-color: #fff;
@@ -144,6 +162,15 @@ h3 {
 }
 .number.water {
   color: #76BEFE;
+}
+.number.bug {
+  color: #8fcc6c;
+}
+.number.normal {
+  color: #9b9472;
+}
+.number.eletric {
+  color: #FCC719;
 }
 
 .lowercard {
@@ -171,4 +198,29 @@ h3 {
   margin: 0 0 40px 0;
   display: flex;
   justify-content: space-between;
+}
+
+.thumb img{
+  background-color: #ffcb05;
+  border: 3px solid #306cb3;
+  border-radius: 50%;
+}
+
+.thumb img:hover {
+  background-color: #306cb3;
+  border: 3px solid #ffcb05;
+}
+
+/* .thumb.ativo img {
+  background-color: #1d2e60;
+} */
+
+
+@media(max-width: 400px) {
+  .bg {
+    padding: 0px;
+  }
+  .card {
+    padding: 10px;
+  }
 }
