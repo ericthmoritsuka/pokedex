@@ -89,7 +89,7 @@ h3 {
   background-color: #8fcc6c;
 }
 .card.eletric {
-  background-color: #FCC719;
+  background-color: #fcc719;
 }
 .card.normal {
   background-color: #cec698;
@@ -108,7 +108,7 @@ h3 {
 }
 
 .image.animation {
-  animation: show-left .5s forwards;
+  animation: show-left 0.5s forwards;
 }
 
 @keyframes show-left {
@@ -148,13 +148,13 @@ h3 {
 .type.water {
   background-color: #5e97cb;
 }
-.type.bug{
+.type.bug {
   background-color: #597f43;
 }
-.type.normal{
+.type.normal {
   background-color: #67634c;
 }
-.type.eletric{
+.type.eletric {
   background-color: #c99e13;
 }
 
@@ -176,7 +176,7 @@ h3 {
   color: #ed8a8b;
 }
 .number.water {
-  color: #76BEFE;
+  color: #76befe;
 }
 .number.bug {
   color: #8fcc6c;
@@ -185,7 +185,7 @@ h3 {
   color: #9b9472;
 }
 .number.eletric {
-  color: #FCC719;
+  color: #fcc719;
 }
 
 .lowercard {
@@ -212,10 +212,11 @@ h3 {
   grid-row: 2;
   margin: 0 0 40px 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.thumb img{
+.thumb img {
   background-color: #ffcb05;
   border: 3px solid #306cb3;
   border-radius: 50%;
@@ -231,8 +232,7 @@ h3 {
   border: 3px solid #ffcb05;
 }
 
-
-@media(max-width: 400px) {
+@media (max-width: 400px) {
   .bg {
     padding: 0px;
   }
