@@ -100,16 +100,15 @@ const nome = document.querySelector(".name");
 const numero = document.querySelector(".number");
 const tipo = document.querySelector(".type");
 const card = document.querySelector(".card");
-const imagem = document.querySelector(".image")
-const hp = document.querySelector('.hp')
-const attack = document.querySelector('.attack')
-const defense = document.querySelector('.defense')
-const spattack = document.querySelector('.spattack')
-const spdefense = document.querySelector('.spdefense')
-const speed = document.querySelector('.speed')
-const total = document.querySelector('.total')
-const moves = document.querySelector('.moves')
-
+const imagem = document.querySelector(".image");
+const hp = document.querySelector(".hp");
+const attack = document.querySelector(".attack");
+const defense = document.querySelector(".defense");
+const spattack = document.querySelector(".spattack");
+const spdefense = document.querySelector(".spdefense");
+const speed = document.querySelector(".speed");
+const total = document.querySelector(".total");
+const moves = document.querySelector(".moves");
 
 const clickHandler = (event) => {
   event.preventDefault();
@@ -119,37 +118,41 @@ const clickHandler = (event) => {
   const pokemon = pokedex.find((entry) => entry.name === escolha);
 
   // ajustando o tipo do pokemon
-  tipo.removeAttribute('class')
-  tipo.classList.add('type')
+  tipo.removeAttribute("class");
+  tipo.classList.add("type");
   tipo.innerText = pokemon.type;
   tipo.classList.add(pokemon.type);
 
   //ajustando o card baseado no tipo
-  card.removeAttribute('class')
-  card.classList.add('card')
+  card.removeAttribute("class");
+  card.classList.add("card");
   card.classList.add(pokemon.type);
 
   //ajustando o numero baseado no tipo
-  numero.removeAttribute('class')
-  numero.classList.add('number')
+  numero.removeAttribute("class");
+  numero.classList.add("number");
   numero.classList.add(pokemon.type);
 
   nome.innerText = pokemon.name;
   numero.innerText = `#${pokemon.number}`;
-  imagem.src = `./img/${pokemon.name}.png`
-  hp.innerText = `HP ${pokemon.hp}`
-  attack.innerText = `ATTACK ${pokemon.attack}`
-  defense.innerText = `DEFENSE ${pokemon.defense}`
-  spattack.innerText = `SP. ATTACK ${pokemon.spattack}`
-  spdefense.innerText = `SP. DEFENSE ${pokemon.spdefense}`
-  speed.innerText = `SPEED ${pokemon.speed}`
-  total.innerText = `TOTAL ${pokemon.total}`
-  console.log(moves, pokemon.moves)
 
-  moves.innerHTML = ''
+  imagem.removeAttribute("class");
+  imagem.classList.add("image");
+
+  imagem.src = `./img/${pokemon.name}.png`;
+
+  hp.innerText = `HP ${pokemon.hp}`;
+  attack.innerText = `ATTACK ${pokemon.attack}`;
+  defense.innerText = `DEFENSE ${pokemon.defense}`;
+  spattack.innerText = `SP. ATTACK ${pokemon.spattack}`;
+  spdefense.innerText = `SP. DEFENSE ${pokemon.spdefense}`;
+  speed.innerText = `SPEED ${pokemon.speed}`;
+  total.innerText = `TOTAL ${pokemon.total}`;
+
+  moves.innerHTML = "";
   pokemon.moves.map((move) => {
-    moves.innerHTML += `<li>${move}</li>`
-  })
+    moves.innerHTML += `<li>${move}</li>`;
+  });
 };
 
 //adicionando eventos

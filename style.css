@@ -105,6 +105,18 @@ h3 {
 .image {
   grid-column: 1/-1;
   place-self: center;
+  animation: show-left .5s forwards;
+}
+
+@keyframes show-left {
+  from {
+    opacity: 0;
+    transform: translate3d(150px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .name {
