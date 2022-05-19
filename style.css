@@ -1,0 +1,174 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Poppins", sans-serif;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+p,
+h1,
+h2,
+h3 {
+  margin: 0px;
+}
+
+.logo {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 50px;
+  grid-row: 1;
+}
+
+.bg {
+  display: grid;
+  padding: 100px;
+  justify-content: center;
+  position: relative;
+  grid-template-rows: auto auto auto;
+}
+
+.bg::before {
+  content: "";
+  background: url("./img/bg.jpg") no-repeat;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.75;
+  z-index: -1;
+}
+
+.card {
+  /* display: none; */
+  box-shadow: inset 0 -350px white;
+  border-radius: 5px;
+  padding: 30px;
+  color: white;
+  max-width: 300px;
+  grid-row: 3;
+}
+
+.card.ativo {
+  display: block;
+}
+
+.card.grass {
+  background-color: #49d0b0;
+}
+.card.fire {
+  background-color: #ed8a8b;
+}
+.card.water {
+  background-color: #76befe;
+}
+
+.uppercard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto 1fr;
+  align-items: center;
+}
+
+.pokemon {
+  grid-column: 1/-1;
+  place-self: center;
+}
+
+.name {
+  font-size: 2rem;
+  text-transform: uppercase;
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.type {
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+  place-self: end;
+  max-width: fit-content;
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+
+.type.grass {
+  background-color: #379d84;
+}
+.type.fire {
+  background-color: #ba6c6d;
+}
+.type.water {
+  background-color: #5e97cb;
+}
+
+.number {
+  background-color: #fff;
+  width: 4ch;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 2px;
+  grid-column: 1;
+  grid-row: 1;
+  place-self: start;
+}
+
+.number.grass {
+  color: #379d84;
+}
+.number.fire {
+  color: #ed8a8b;
+}
+.number.water {
+  color: #76BEFE;
+}
+
+.lowercard {
+  padding: 0 30px 30px 30px;
+  display: flex;
+  justify-content: space-between;
+  color: #222;
+  margin-top: 30px;
+}
+
+.smallTitle {
+  font-size: 1.5rem;
+}
+
+.movesBG,
+.statusBG {
+  display: grid;
+  align-content: start;
+  gap: 15px;
+  text-transform: uppercase;
+}
+
+.menu {
+  grid-row: 2;
+  margin: 0 0 40px 0;
+  display: flex;
+  justify-content: space-between;
+}
