@@ -110,8 +110,15 @@ const speed = document.querySelector(".speed");
 const total = document.querySelector(".total");
 const moves = document.querySelector(".moves");
 
+const thumbList = Array.from(document.querySelectorAll(".thumb img"));
+
 const clickHandler = (event) => {
   event.preventDefault();
+
+  thumbList.forEach((thumb) => {
+    thumb.removeAttribute("class");
+  });
+  event.target.classList.add("ativo");
 
   //pokemon selecionado e procurando na lista
   const escolha = event.target.alt;
@@ -136,8 +143,9 @@ const clickHandler = (event) => {
   nome.innerText = pokemon.name;
   numero.innerText = `#${pokemon.number}`;
 
-  imagem.removeAttribute("class");
-  imagem.classList.add("image");
+  imagem.classList.remove("animation");
+  void imagem.offsetWidth;
+  imagem.classList.add("animation");
 
   imagem.src = `./img/${pokemon.name}.png`;
 

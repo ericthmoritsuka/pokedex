@@ -105,6 +105,9 @@ h3 {
 .image {
   grid-column: 1/-1;
   place-self: center;
+}
+
+.image.animation {
   animation: show-left .5s forwards;
 }
 
@@ -223,9 +226,10 @@ h3 {
   border: 3px solid #ffcb05;
 }
 
-/* .thumb.ativo img {
+.thumb img.ativo {
   background-color: #1d2e60;
-} */
+  border: 3px solid #ffcb05;
+}
 
 
 @media(max-width: 400px) {
