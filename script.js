@@ -130,6 +130,12 @@ const clickHandler = (event) => {
   tipo.innerText = pokemon.type;
   tipo.classList.add(pokemon.type);
 
+  // if(pokemon.type2) {
+  //   let tipo2 = document.createElement('p')
+  //   tipo.parentNode.insertBefore(tipo2, tipo)
+  //   tipo2.innerHTML = `<p class="${pokemon.type2}">${pokemon.type2}<p>`
+  // }
+
   //ajustando o card baseado no tipo
   card.removeAttribute("class");
   card.classList.add("card");

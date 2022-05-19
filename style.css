@@ -129,11 +129,18 @@ h3 {
   grid-row: 2;
 }
 
+.numbertype {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 1/-1;
+  margin-bottom: 5px;
+}
+
 .type {
   display: block;
-  grid-column: 2;
+  /* grid-column: 2;
   grid-row: 1;
-  place-self: end;
+  place-self: end; */
   max-width: fit-content;
   padding: 5px 10px;
   border-radius: 2px;
@@ -164,9 +171,9 @@ h3 {
   text-align: center;
   padding: 5px 10px;
   border-radius: 2px;
-  grid-column: 1;
+  /* grid-column: 1;
   grid-row: 1;
-  place-self: start;
+  place-self: start; */
 }
 
 .number.grass {
@@ -194,6 +201,7 @@ h3 {
   justify-content: space-between;
   color: #222;
   margin-top: 30px;
+  gap: 10px;
 }
 
 .smallTitle {
@@ -236,7 +244,24 @@ h3 {
   .bg {
     padding: 0px;
   }
+  .logo {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
   .card {
     padding: 10px;
+    max-width: 250px;
+  }
+
+  .name {
+    font-size: 1.65rem;
+  }
+
+  .lowercard {
+    font-size: 0.75rem;
+  }
+
+  .smallTitle {
+    font-size: 1.2rem;
   }
 }
