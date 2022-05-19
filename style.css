@@ -40,7 +40,7 @@ h3 {
 
 .bg {
   display: grid;
-  padding: 100px;
+  padding: 50px 100px 50px 100px;
   justify-content: center;
   position: relative;
   grid-template-rows: auto auto auto;
@@ -53,6 +53,7 @@ h3 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   position: absolute;
   top: 0;
   right: 0;
@@ -242,7 +243,7 @@ h3 {
 
 @media (max-width: 400px) {
   .bg {
-    padding: 0px;
+    padding: 10px;
   }
   .logo {
     margin-top: 20px;
