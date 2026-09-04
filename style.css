@@ -112,6 +112,9 @@ button {
 }
 
 .left {
+  /* border-box so the border and padding don't make this half wider
+     than the .right half, whose faces are absolutely positioned */
+  box-sizing: border-box;
   background: linear-gradient(160deg, #ee2245, #c40626);
   border: 3px solid #7c0318;
   border-right: none;
