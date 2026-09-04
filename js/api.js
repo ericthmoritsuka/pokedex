@@ -136,6 +136,28 @@ const toEvolutionStages = (data) => {
 
 export const isSelectable = (id) => id >= 1 && id <= TOTAL_POKEMON;
 
+const pokedexCache = new Map();
+
+// The species ids of one or more in-game pokedexes, merged and deduplicated.
+export const getGamePokedexIds = async (dexNames) => {
+  const lists = await Promise.all(
+    dexNames.map((name) => {
+      if (!pokedexCache.has(name)) {
+        pokedexCache.set(
+          name,
+          fetchJSON(`${API}/pokedex/${name}`).then((data) =>
+            data.pokemon_entries.map((entry) =>
+              idFromUrl(entry.pokemon_species.url)
+            )
+          )
+        );
+      }
+      return pokedexCache.get(name);
+    })
+  );
+  return [...new Set(lists.flat())].filter((id) => id <= TOTAL_POKEMON);
+};
+
 const typeRelationsCache = new Map();
 
 const getTypeRelations = (typeName) => {

@@ -1401,13 +1401,36 @@ button {
 
 /* ---------- Generation filter bar ---------- */
 
-.genTabs {
+.genTabs,
+.gameTabs {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 25px;
   max-width: min(780px, 94vw);
+}
+
+.genTabs {
+  margin-bottom: 8px;
+}
+
+.gameTabs {
+  margin-bottom: 25px;
+}
+
+.gameTab {
+  border-color: #8e51b3;
+  color: #4a2a63;
+}
+
+.gameTab:hover {
+  border-color: #ffcb05;
+}
+
+.gameTab.active {
+  background: #ffcb05;
+  border-color: #c99e13;
+  color: #1d2e60;
 }
 
 .genTab {

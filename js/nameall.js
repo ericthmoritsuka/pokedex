@@ -33,7 +33,7 @@ const renderSetup = async () => {
   try {
     const list = await getPokemonList();
     const count = list.filter((pokemon) => isAllowed(pokemon.id)).length;
-    summary.innerText = `Can you name all ${count} Pokémon of ${selectionLabel()}? Pick your generations in the bar above.`;
+    summary.innerText = `Can you name all ${count} Pokémon of ${selectionLabel()}? Pick generations or a game in the bars above.`;
   } catch (error) {
     summary.innerText = "Could not reach PokéAPI.";
     console.error(error);
