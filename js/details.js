@@ -1,4 +1,5 @@
 import { spriteUrl, typeIconUrl, isSelectable } from "./api.js";
+import { isInTeam, toggleTeamMember } from "./team.js";
 
 const infoBody = document.querySelector(".infoBody");
 const placeholder = infoBody.querySelector(".placeholder");
@@ -12,6 +13,7 @@ const elements = {
   image: details.querySelector(".image"),
   shinyButton: details.querySelector(".shinyBtn"),
   cryButton: details.querySelector(".cryBtn"),
+  teamButton: details.querySelector(".teamBtn"),
   panels: Object.fromEntries(
     [...details.querySelectorAll(".tabPanel")].map((panel) => [
       panel.dataset.panel,
@@ -161,6 +163,8 @@ export const renderDetails = (pokemon, species, stages) => {
     })
     .join("");
 
+  elements.teamButton.classList.toggle("active", isInTeam(pokemon.id));
+
   setArtwork();
   renderAbout(current);
   renderStats(current);
@@ -193,6 +197,12 @@ elements.shinyButton.addEventListener("click", () => {
   if (!current) return;
   showingShiny = !showingShiny;
   setArtwork();
+});
+
+elements.teamButton.addEventListener("click", async () => {
+  if (!current) return;
+  const inTeam = await toggleTeamMember(current.pokemon.id);
+  elements.teamButton.classList.toggle("active", inTeam);
 });
 
 elements.cryButton.addEventListener("click", () => {

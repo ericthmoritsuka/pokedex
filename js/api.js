@@ -1,5 +1,5 @@
 const API = "https://pokeapi.co/api/v2";
-const TOTAL_POKEMON = 1025;
+export const TOTAL_POKEMON = 1025;
 
 export const spriteUrl = (id) =>
   `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;

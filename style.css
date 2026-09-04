@@ -275,12 +275,66 @@ button {
   border-left: none;
   padding: 14px;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   box-shadow: inset 8px 0 0 #96041d;
 }
 
 .infoFace .screen {
   flex: 1 1 0;
   min-width: 0;
+  min-height: 0;
+}
+
+/* ---------- App menu (the device's mode buttons) ---------- */
+
+.appMenu {
+  display: flex;
+  gap: 6px;
+}
+
+.appBtn {
+  flex: 1;
+  border: 2px solid #7c0318;
+  background: #96041d;
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 2px;
+  cursor: pointer;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
+.appBtn span {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.appBtn:hover {
+  background: #7c0318;
+}
+
+.appBtn.active {
+  background: #ffcb05;
+  border-color: #c99e13;
+  color: #222;
+}
+
+.appBtn.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-15deg); }
+  40% { transform: rotate(12deg); }
+  60% { transform: rotate(-8deg); }
+  80% { transform: rotate(4deg); }
 }
 
 .cover {
@@ -317,18 +371,35 @@ button {
   flex-direction: column;
 }
 
-.infoBody {
+.screenBody {
   background: #fff;
   border-radius: 8px;
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1 1 0;
   min-height: 0;
+}
+
+.infoBody {
   transition: opacity 0.2s;
 }
 
 .infoBody.loading {
   opacity: 0.6;
+}
+
+.cap {
+  text-transform: capitalize;
+}
+
+.appTitle {
+  font-size: 1.05rem;
+  text-transform: uppercase;
+}
+
+.appHint {
+  font-size: 0.78rem;
+  color: #667;
 }
 
 .placeholder {
@@ -427,6 +498,8 @@ button {
   position: relative;
   display: grid;
   place-items: center;
+  /* reserve room so the buttons don't overlap the tabs before the image loads */
+  min-height: 110px;
 }
 
 .image {
@@ -704,4 +777,261 @@ button {
     transform: rotateX(180deg);
     border: 3px solid #7c0318;
   }
+}
+
+/* ---------- Quiz app ---------- */
+
+.quizBody {
+  padding: 16px;
+  color: #222;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  text-align: center;
+}
+
+.quizImageBox {
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+}
+
+.quizImage {
+  max-height: 160px;
+  transition: filter 0.4s;
+}
+
+.quizImage.mystery {
+  filter: brightness(0);
+}
+
+.quizForm {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.quizInput {
+  flex: 1 1 60px;
+  min-width: 0;
+  font-family: inherit;
+  padding: 8px 12px;
+  border: 2px solid #306cb3;
+  border-radius: 8px;
+  outline: none;
+}
+
+.quizInput:focus {
+  border-color: #ffcb05;
+}
+
+.quizGuess,
+.quizReveal,
+.quizNext {
+  font-family: inherit;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  background: #ffcb05;
+}
+
+.quizReveal {
+  background: #eee;
+}
+
+.quizFeedback {
+  font-weight: 700;
+  min-height: 1.4em;
+}
+
+.quizScore {
+  font-size: 0.78rem;
+  color: #667;
+}
+
+/* ---------- Team app ---------- */
+
+.teamBody {
+  padding: 16px;
+  color: #222;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.teamSlots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.teamSlot {
+  position: relative;
+  background: #f2f2f4;
+  border-radius: 10px;
+  padding: 8px 4px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  font-size: 0.68rem;
+  min-height: 92px;
+}
+
+.teamSlot.empty {
+  border: 2px dashed #ccc;
+  background: none;
+  color: #aab;
+}
+
+.teamSlot.empty img {
+  width: 26px;
+  height: 26px;
+  opacity: 0.35;
+}
+
+.teamSlot.filled img {
+  width: 56px;
+  height: 56px;
+}
+
+.teamRemove {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: #889;
+}
+
+.teamRemove:hover {
+  color: #dc0a2d;
+}
+
+.teamTotal {
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-height: 1.2em;
+}
+
+.teamBtn img {
+  width: 20px;
+  height: 20px;
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Compare app ---------- */
+
+.compareBody {
+  padding: 16px;
+  color: #222;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.compareHeads {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.compareHead {
+  position: relative;
+  border: 3px solid #ddd;
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: grid;
+  justify-items: center;
+  font-size: 0.68rem;
+  min-width: 84px;
+  min-height: 84px;
+  align-content: center;
+}
+
+.compareHead img {
+  width: 56px;
+  height: 56px;
+}
+
+.compareHead.empty {
+  color: #aab;
+  font-size: 1.4rem;
+}
+
+.compareClear {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: #889;
+}
+
+.compareClear:hover {
+  color: #dc0a2d;
+}
+
+.vs {
+  font-weight: 700;
+  color: #96041d;
+}
+
+.compareStats {
+  display: grid;
+  gap: 8px;
+}
+
+.compareRow {
+  display: grid;
+  grid-template-columns: 34px 1fr 34px;
+  gap: 8px;
+  align-items: center;
+}
+
+.cVal {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-align: center;
+  color: #99a;
+}
+
+.cVal.win {
+  color: #111;
+}
+
+.cLabel {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #889;
+}
+
+.cBars {
+  display: grid;
+  gap: 3px;
+}
+
+.cBar {
+  background: #eee;
+  height: 7px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cBar div {
+  height: 100%;
+  border-radius: 4px;
 }
