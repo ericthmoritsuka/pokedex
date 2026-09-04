@@ -24,9 +24,15 @@
       <button class="deviceTab" data-device="rotom">Rotom</button>
     </nav>
 
-    <nav class="genTabs"></nav>
-    <nav class="gameTabs"></nav>
-    <p class="helpBox genHelp" id="helpGens" hidden>These filters choose which Pokémon appear everywhere: the Pokédex list, the random button, the games, and the search pickers. Click regions to combine them, or pick one game to use its actual regional Pokédex (games that share a Pokédex share a pill). <strong>All</strong> shows everything.</p>
+    <div class="filterBar">
+      <button type="button" class="filterToggle" data-target=".genTabs">Region ▾</button>
+      <button type="button" class="filterToggle" data-target=".gameTabs">Game ▾</button>
+      <span class="filterCurrent">All</span>
+      <button class="helpBtn" data-help="#helpGens" title="What is this?">?</button>
+    </div>
+    <nav class="genTabs" hidden></nav>
+    <nav class="gameTabs" hidden></nav>
+    <p class="helpBox genHelp" id="helpGens" hidden>These filters choose which Pokémon appear everywhere: the Pokédex list, the random button, the games, and the search pickers. Open <strong>Region</strong> to combine regions, or <strong>Game</strong> to use one game's actual regional Pokédex (games that share a Pokédex share a pill). <strong>All</strong> shows everything.</p>
 
     <div class="stage">
 

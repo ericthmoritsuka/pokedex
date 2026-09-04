@@ -1401,6 +1401,51 @@ button {
 
 /* ---------- Generation filter bar ---------- */
 
+.filterBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filterToggle {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 16px;
+  border-radius: 16px;
+  border: 2px solid #306cb3;
+  background: #fff;
+  color: #1d2e60;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.filterToggle:hover {
+  border-color: #ffcb05;
+}
+
+.filterToggle.open {
+  background: #ffcb05;
+  border-color: #c99e13;
+}
+
+.filterCurrent {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #1d2e60;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 5px 14px;
+  border-radius: 14px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .genTabs,
 .gameTabs {
   display: flex;
@@ -1408,19 +1453,26 @@ button {
   flex-wrap: wrap;
   gap: 6px;
   max-width: min(780px, 94vw);
+  margin: -8px auto 20px;
 }
 
-.genTabs {
-  margin-bottom: 8px;
-}
-
-.gameTabs {
-  margin-bottom: 25px;
-}
-
+/* game pills wear their games' cover colors as a strip */
 .gameTab {
-  border-color: #8e51b3;
-  color: #4a2a63;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 9px;
+  border-color: #6b7a99;
+  color: #2b3a55;
+}
+
+.gameTab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: var(--gc, #8e51b3);
 }
 
 .gameTab:hover {
