@@ -16,37 +16,78 @@
 <body>
   <div class="bg">
     <div class="logo">
-      <img src="./img/logo.svg" alt="">
+      <img src="./img/logo.svg" alt="Pokémon">
     </div>
-    <div class="bgMenu">
-      <div class="searchBox">
-        <input type="search" id="search" placeholder="Search by name or number" autocomplete="off">
-      </div>
-      <p class="noResults" hidden>No Pokémon found</p>
-      <ul class="menu"></ul>
-    </div>
-  </div>
 
-  <div class="overlay" hidden>
-    <div class="card grass">
-      <button class="close" aria-label="Close">×</button>
-      <div class="uppercard">
-        <h2 class="name">Loading…</h2>
-        <div class="numbertype">
-          <p class="number">#</p>
-          <div class="types"></div>
+    <div class="stage">
+      <div class="pokedex closed">
+
+        <div class="half left">
+          <div class="topbar">
+            <div class="lens"></div>
+            <div class="lights">
+              <span class="light red"></span>
+              <span class="light yellow"></span>
+              <span class="light green"></span>
+            </div>
+          </div>
+          <div class="screen listScreen">
+            <div class="searchBox">
+              <input type="search" id="search" placeholder="Search by name or number" autocomplete="off">
+            </div>
+            <p class="noResults" hidden>No Pokémon found</p>
+            <ul class="menu"></ul>
+          </div>
         </div>
-        <img class="image" src="./img/Bulbasaur.png" alt="pokemon image">
-      </div>
-      <div class="lowercard">
-        <div class="statusBG">
-          <p class="smallTitle">Stats</p>
-          <ul class="status"></ul>
+
+        <div class="half right">
+          <div class="face infoFace">
+            <div class="screen infoScreen">
+              <div class="infoBody">
+                <div class="placeholder">Choose a Pokémon!</div>
+                <div class="details" hidden>
+                  <div class="detailsTop">
+                    <div class="numbertype">
+                      <p class="number">#</p>
+                      <div class="types"></div>
+                    </div>
+                    <h2 class="name"></h2>
+                    <p class="genus"></p>
+                    <div class="artworkBox">
+                      <img class="image" alt="">
+                      <div class="artButtons">
+                        <button class="iconBtn shinyBtn" title="Toggle shiny">✨</button>
+                        <button class="iconBtn cryBtn" title="Play cry">🔊</button>
+                      </div>
+                    </div>
+                  </div>
+                  <nav class="tabs">
+                    <button class="tab active" data-tab="about">ℹ️<span>About</span></button>
+                    <button class="tab" data-tab="stats">📊<span>Stats</span></button>
+                    <button class="tab" data-tab="moves">⚔️<span>Moves</span></button>
+                    <button class="tab" data-tab="evolution">🧬<span>Evolution</span></button>
+                    <button class="tab" data-tab="more">📖<span>More</span></button>
+                  </nav>
+                  <section class="tabPanel" data-panel="about"></section>
+                  <section class="tabPanel" data-panel="stats" hidden></section>
+                  <section class="tabPanel" data-panel="moves" hidden></section>
+                  <section class="tabPanel" data-panel="evolution" hidden></section>
+                  <section class="tabPanel" data-panel="more" hidden></section>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="face cover">
+            <div class="lens"></div>
+            <div class="lights">
+              <span class="light red"></span>
+              <span class="light yellow"></span>
+              <span class="light green"></span>
+            </div>
+            <p class="hint">Click to open</p>
+          </div>
         </div>
-        <div class="movesBG">
-          <p class="smallTitle">Moves</p>
-          <ul class="moves"></ul>
-        </div>
+
       </div>
     </div>
   </div>
