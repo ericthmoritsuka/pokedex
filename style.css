@@ -1099,62 +1099,83 @@ button {
   50% { transform: translateY(-9px); }
 }
 
-/* the two plasma spikes on top: same color as the body's top edge and
-   overlapping it so they read as part of the silhouette, like the artwork */
-.rotom::before,
-.rotom::after {
-  content: "";
+/* single spike on top, like the anime device */
+.rotomSpike {
   position: absolute;
+  top: -34px;
+  left: 41%;
+  width: 74px;
+  height: 40px;
+  background: #f0685c;
+  clip-path: polygon(0% 100%, 46% 0%, 100% 100%);
+}
+
+/* the pointed top corners */
+.rotomEar {
+  position: absolute;
+  top: -16px;
+  width: 46px;
+  height: 26px;
   background: #f0685c;
 }
 
-.rotom::before {
-  width: 96px;
-  height: 62px;
-  top: -56px;
-  left: 20%;
-  clip-path: polygon(0% 100%, 32% 10%, 46% 0%, 100% 100%);
+.earLeft {
+  left: 2px;
+  clip-path: polygon(0 0, 100% 100%, 8% 100%);
 }
 
-.rotom::after {
-  width: 62px;
-  height: 36px;
-  top: -30px;
-  right: 16%;
-  clip-path: polygon(0% 100%, 58% 0%, 100% 100%);
+.earRight {
+  right: 2px;
+  clip-path: polygon(100% 0, 92% 100%, 0 100%);
 }
 
-/* zigzag arms */
+/* rounded paddle arms with a dark dot */
 .rotomArm {
   position: absolute;
-  top: 38%;
-  width: 96px;
-  height: 90px;
-  background: #d94a41;
-  clip-path: polygon(18% 0, 62% 0, 44% 36%, 100% 28%, 24% 100%, 42% 52%, 0 58%);
+  top: 17%;
+  width: 92px;
+  height: 60px;
+  background: #e14e44;
+  border: 3px solid #9c2b25;
+  border-radius: 14px 30px 30px 14px;
+}
+
+.rotomArm::after {
+  content: "";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 13px;
+  border-radius: 50%;
+  background: #a63630;
 }
 
 .armRight {
-  right: -88px;
+  right: -84px;
+  transform: rotate(35deg);
 }
 
 .armLeft {
-  left: -88px;
-  transform: scaleX(-1);
+  left: -84px;
+  transform: scaleX(-1) rotate(35deg);
 }
 
-/* Rotom's face */
+/* Rotom's face lives on the screen, like the real device */
 .rotomFace {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 26px;
+  gap: 30px;
   background: #2a2a2a;
   border-radius: 24px;
-  padding: 9px 28px 11px;
-  margin: 0 auto 4px;
+  padding: 8px 30px 10px;
+  margin: 2px auto 10px;
   width: fit-content;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .rotomEye {
@@ -1171,8 +1192,8 @@ button {
   bottom: -9px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
-  height: 15px;
+  width: 38px;
+  height: 16px;
   background: linear-gradient(#fff 45%, #9fc0d4 46%);
   border: 2px solid #2a2a2a;
   border-radius: 5px 5px 18px 18px;
@@ -1298,16 +1319,20 @@ button {
   }
 
   .rotomArm {
-    width: 54px;
-    height: 52px;
+    width: 56px;
+    height: 40px;
+  }
+
+  .rotomArm::after {
+    right: 10px;
   }
 
   .armRight {
-    right: -42px;
+    right: -46px;
   }
 
   .armLeft {
-    left: -42px;
+    left: -46px;
   }
 }
 
