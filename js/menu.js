@@ -35,11 +35,22 @@ export const setActive = (id) => {
 export const filterMenu = (term) => {
   // Names in the API use dashes ("mr-mime"), so let "mr mime" match too.
   const query = term.trim().toLowerCase().replaceAll(" ", "-").replace("#", "");
+  let visible = 0;
 
   for (const item of items.values()) {
     item.hidden =
       Boolean(query) &&
       !item.dataset.name.includes(query) &&
       item.dataset.id !== query;
+    if (!item.hidden) visible++;
   }
+
+  return visible;
+};
+
+export const firstVisibleId = () => {
+  for (const [id, item] of items) {
+    if (!item.hidden) return id;
+  }
+  return null;
 };

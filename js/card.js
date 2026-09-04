@@ -1,4 +1,7 @@
-const card = document.querySelector(".card");
+import { typeIconUrl } from "./api.js";
+
+const overlay = document.querySelector(".overlay");
+const card = overlay.querySelector(".card");
 
 const elements = {
   name: card.querySelector(".name"),
@@ -7,6 +10,16 @@ const elements = {
   image: card.querySelector(".image"),
   stats: card.querySelector(".status"),
   moves: card.querySelector(".moves"),
+};
+
+export const openCard = () => {
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+};
+
+export const closeCard = () => {
+  overlay.hidden = true;
+  document.body.style.overflow = "";
 };
 
 export const setLoading = (isLoading) => {
@@ -23,7 +36,12 @@ export const renderCard = (pokemon) => {
   elements.name.innerText = pokemon.name;
   elements.number.innerText = `#${pokemon.id}`;
   elements.types.innerHTML = pokemon.types
-    .map((type) => `<p class="type">${type}</p>`)
+    .map((type) => {
+      const icon = typeIconUrl(type);
+      return icon
+        ? `<img class="typeIcon" src="${icon}" alt="${type}" title="${type}">`
+        : `<p class="type">${type}</p>`;
+    })
     .join("");
 
   elements.image.classList.remove("animation");
@@ -39,3 +57,13 @@ export const renderCard = (pokemon) => {
     .map((move) => `<li>${move}</li>`)
     .join("");
 };
+
+overlay.addEventListener("click", (event) => {
+  if (event.target === overlay) closeCard();
+});
+
+card.querySelector(".close").addEventListener("click", closeCard);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !overlay.hidden) closeCard();
+});

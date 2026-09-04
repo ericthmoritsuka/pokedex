@@ -18,7 +18,18 @@
     <div class="logo">
       <img src="./img/logo.svg" alt="">
     </div>
+    <div class="bgMenu">
+      <div class="searchBox">
+        <input type="search" id="search" placeholder="Search by name or number" autocomplete="off">
+      </div>
+      <p class="noResults" hidden>No Pokémon found</p>
+      <ul class="menu"></ul>
+    </div>
+  </div>
+
+  <div class="overlay" hidden>
     <div class="card grass">
+      <button class="close" aria-label="Close">×</button>
       <div class="uppercard">
         <h2 class="name">Loading…</h2>
         <div class="numbertype">
@@ -37,12 +48,6 @@
           <ul class="moves"></ul>
         </div>
       </div>
-    </div>
-    <div class="bgMenu">
-      <div class="searchBox">
-        <input type="search" id="search" placeholder="Search by name or number">
-      </div>
-      <ul class="menu"></ul>
     </div>
   </div>
 

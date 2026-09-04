@@ -63,18 +63,66 @@ h3 {
   z-index: -1;
 }
 
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
 .card {
   box-shadow: inset 0 -350px white;
   padding: 30px;
   color: white;
   max-width: 300px;
-  grid-row: 3;
-  place-self: center;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
   transition: opacity 0.2s;
+  animation: card-pop 0.25s;
+}
+
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .card.loading {
   opacity: 0.7;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: #222;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.close:hover {
+  background: #fff;
 }
 
 .card {
@@ -138,13 +186,22 @@ h3 {
 .numbertype {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
   grid-column: 1/-1;
   margin-bottom: 5px;
 }
 
 .types {
   display: flex;
+  align-items: center;
   gap: 5px;
+}
+
+.typeIcon {
+  height: 21px;
+  width: auto;
 }
 
 .type {
@@ -161,6 +218,9 @@ h3 {
   text-align: center;
   padding: 5px 10px;
   border-radius: 2px;
+  /* plain color first: browsers without CSS variable support would otherwise
+     inherit the card's white text and show a blank white box */
+  color: #67634c;
   color: var(--c, #67634c);
 }
 
@@ -200,16 +260,29 @@ h3 {
 
 .searchBox input {
   font-family: inherit;
-  font-size: 1rem;
-  padding: 8px 15px;
+  font-size: 1.05rem;
+  padding: 12px 20px 12px 48px;
   border: 3px solid #306cb3;
-  border-radius: 20px;
+  border-radius: 30px;
   outline: none;
-  width: min(300px, 80vw);
+  width: min(400px, 85vw);
+  background: #fff url("./img/pokeball.png") no-repeat 14px center / 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .searchBox input:focus {
   border-color: #ffcb05;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.noResults {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-weight: 700;
 }
 
 .menu {
@@ -217,7 +290,7 @@ h3 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  max-height: 320px;
+  max-height: 60vh;
   overflow-y: auto;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.35);
