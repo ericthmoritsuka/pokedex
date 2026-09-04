@@ -21,7 +21,9 @@ Then open http://localhost:8000.
 
 ## Credits
 
-Built by Eric Moritsuka with AI assistance from [Claude](https://claude.com/claude-code)
-(see the `Co-Authored-By` trailers in the commit history). Pokémon data and images
-from [PokéAPI](https://pokeapi.co); Pokémon and Pokémon character names are
+The Pokédex was designed and originally implemented by Eric Moritsuka. The recent
+improvements — the PokéAPI integration, the openable device UI, and the extra info
+tabs — were made with AI assistance from [Claude](https://claude.com/claude-code);
+those commits carry `Co-Authored-By` trailers in the history. Pokémon data and
+images from [PokéAPI](https://pokeapi.co); Pokémon and Pokémon character names are
 trademarks of Nintendo.
