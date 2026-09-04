@@ -24,6 +24,8 @@
       <button class="deviceTab" data-device="rotom">Rotom</button>
     </nav>
 
+    <nav class="genTabs"></nav>
+
     <div class="stage">
 
       <!-- ================= The Pokédex ================= -->
@@ -62,6 +64,7 @@
                     </div>
                     <h2 class="name"></h2>
                     <p class="genus"></p>
+                    <div class="variants"></div>
                     <div class="artworkBox">
                       <img class="image" alt="">
                       <div class="artButtons">
@@ -102,15 +105,19 @@
 
       <!-- ================= The Rotom apps ================= -->
       <div class="rotom" hidden>
-        <div class="rotomEyes">
+        <div class="rotomArm armLeft"></div>
+        <div class="rotomArm armRight"></div>
+        <div class="rotomFace">
           <span class="rotomEye"></span>
           <span class="rotomEye"></span>
+          <span class="rotomMouth"></span>
         </div>
 
         <nav class="appMenu">
           <button class="appBtn active" data-app="quiz">❓<span>Quiz</span></button>
           <button class="appBtn" data-app="team">👥<span>Team</span></button>
           <button class="appBtn" data-app="compare">⚖️<span>Compare</span></button>
+          <button class="appBtn" data-app="nameall">📝<span>Name All</span></button>
         </nav>
 
         <div class="screen rotomScreen">
@@ -155,6 +162,28 @@
             </div>
             <div class="compareHeads"></div>
             <ul class="compareStats"></ul>
+          </div>
+
+          <div class="screenBody nameallBody" hidden>
+            <h3 class="appTitle">Name them all!</h3>
+            <div class="naSetup">
+              <p class="naSummary"></p>
+              <div class="naTimes"></div>
+              <label class="naSil">
+                <input type="checkbox" class="naSilhouettes"> Show silhouettes
+              </label>
+              <button type="button" class="naStart">Start!</button>
+            </div>
+            <div class="naGame" hidden>
+              <div class="naHud">
+                <input class="naInput" type="text" placeholder="Type a name…" autocomplete="off" data-1p-ignore data-lpignore="true">
+                <span class="naTimer">15:00</span>
+                <span class="naCount">0/0</span>
+                <button type="button" class="naGiveUp">Give up</button>
+              </div>
+              <p class="naResult" hidden></p>
+              <ul class="naSlots"></ul>
+            </div>
           </div>
 
         </div>

@@ -1,4 +1,5 @@
 import { getPokemonList, spriteUrl } from "./api.js";
+import { isAllowed, onGenChange } from "./gens.js";
 
 // A compact searchable pokemon strip: type to filter, click a sprite to pick.
 export const createPicker = (root, onPick) => {
@@ -15,7 +16,10 @@ export const createPicker = (root, onPick) => {
     const matches = list
       .filter(
         (pokemon) =>
-          !query || pokemon.name.includes(query) || String(pokemon.id) === query
+          isAllowed(pokemon.id) &&
+          (!query ||
+            pokemon.name.includes(query) ||
+            String(pokemon.id) === query)
       )
       .slice(0, 12);
 
@@ -38,6 +42,7 @@ export const createPicker = (root, onPick) => {
     .catch(console.error);
 
   input.addEventListener("input", render);
+  onGenChange(render);
 
   results.addEventListener("click", (event) => {
     const item = event.target.closest(".pickerItem");

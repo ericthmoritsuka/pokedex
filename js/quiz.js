@@ -1,4 +1,5 @@
-import { getPokemon, TOTAL_POKEMON } from "./api.js";
+import { getPokemon } from "./api.js";
+import { randomAllowedId } from "./gens.js";
 
 const body = document.querySelector(".quizBody");
 const image = body.querySelector(".quizImage");
@@ -39,7 +40,7 @@ const playCry = () => {
 const randomPokemon = async () => {
   // In sound mode the pokemon must have a cry to guess from.
   for (let attempt = 0; attempt < 5; attempt++) {
-    const pokemon = await getPokemon(1 + Math.floor(Math.random() * TOTAL_POKEMON));
+    const pokemon = await getPokemon(randomAllowedId());
     if (mode !== "sound" || pokemon.cry) return pokemon;
   }
   throw new Error("Could not find a pokemon with a cry");

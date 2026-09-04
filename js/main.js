@@ -3,8 +3,8 @@ import {
   getPokemon,
   getSpecies,
   getEvolutionStages,
-  TOTAL_POKEMON,
 } from "./api.js";
+import { initGenBar, onGenChange, randomAllowedId } from "./gens.js";
 import { buildMenu, setActive, filterMenu, firstVisibleId } from "./menu.js";
 import {
   initDetails,
@@ -14,6 +14,7 @@ import {
 } from "./details.js";
 import { enterQuiz } from "./quiz.js";
 import { renderTeam } from "./team.js";
+import { enterNameAll } from "./nameall.js";
 import "./compare.js";
 
 const pokedex = document.querySelector(".pokedex");
@@ -45,6 +46,7 @@ const appBodies = {
   quiz: document.querySelector(".quizBody"),
   team: document.querySelector(".teamBody"),
   compare: document.querySelector(".compareBody"),
+  nameall: document.querySelector(".nameallBody"),
 };
 
 let currentApp = "quiz";
@@ -52,6 +54,7 @@ let currentApp = "quiz";
 const enterApp = (app) => {
   if (app === "quiz") enterQuiz();
   if (app === "team") renderTeam();
+  if (app === "nameall") enterNameAll();
 };
 
 const setApp = (app) => {
@@ -91,11 +94,17 @@ const selectPokemon = async (id) => {
   }
 };
 
+const refreshList = () => {
+  noResults.hidden = filterMenu(searchInput.value) > 0;
+};
+
 const init = async () => {
+  initGenBar();
   initDetails(selectPokemon);
 
   try {
     buildMenu(await getPokemonList(), selectPokemon);
+    refreshList();
   } catch (error) {
     noResults.innerText = "Could not reach PokéAPI";
     noResults.hidden = false;
@@ -131,7 +140,7 @@ diceButton.addEventListener("click", () => {
   diceButton.classList.remove("shake");
   void diceButton.offsetWidth;
   diceButton.classList.add("shake");
-  selectPokemon(1 + Math.floor(Math.random() * TOTAL_POKEMON));
+  selectPokemon(randomAllowedId());
 });
 
 document.addEventListener("keydown", (event) => {
@@ -142,9 +151,8 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-searchInput.addEventListener("input", (event) => {
-  noResults.hidden = filterMenu(event.target.value) > 0;
-});
+searchInput.addEventListener("input", refreshList);
+onGenChange(refreshList);
 
 searchInput.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;

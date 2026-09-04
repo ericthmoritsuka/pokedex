@@ -99,8 +99,13 @@ const toSpeciesViewModel = (data) => {
   const genus = data.genera.find((entry) => entry.language.name === "en")?.genus;
 
   return {
+    id: data.id,
     flavor: flavor || null,
     genus: genus || null,
+    varieties: data.varieties.map((entry) => ({
+      name: entry.pokemon.name,
+      isDefault: entry.is_default,
+    })),
     captureRate: data.capture_rate,
     growthRate: cleanName(data.growth_rate.name),
     eggGroups: data.egg_groups.map((entry) => cleanName(entry.name)),

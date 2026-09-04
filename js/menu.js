@@ -1,4 +1,5 @@
 import { spriteUrl } from "./api.js";
+import { isAllowed } from "./gens.js";
 
 const menu = document.querySelector(".menu");
 const items = new Map();
@@ -38,10 +39,11 @@ export const filterMenu = (term) => {
   let visible = 0;
 
   for (const item of items.values()) {
-    item.hidden =
-      Boolean(query) &&
-      !item.dataset.name.includes(query) &&
-      item.dataset.id !== query;
+    const matchesQuery =
+      !query ||
+      item.dataset.name.includes(query) ||
+      item.dataset.id === query;
+    item.hidden = !matchesQuery || !isAllowed(Number(item.dataset.id));
     if (!item.hidden) visible++;
   }
 

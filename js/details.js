@@ -1,4 +1,4 @@
-import { spriteUrl, typeIconUrl, isSelectable } from "./api.js";
+import { spriteUrl, typeIconUrl, isSelectable, getPokemon } from "./api.js";
 import { isInTeam, toggleTeamMember } from "./team.js";
 
 const infoBody = document.querySelector(".infoBody");
@@ -8,6 +8,7 @@ const details = infoBody.querySelector(".details");
 const elements = {
   name: details.querySelector(".name"),
   genus: details.querySelector(".genus"),
+  variants: details.querySelector(".variants"),
   number: details.querySelector(".number"),
   types: details.querySelector(".types"),
   image: details.querySelector(".image"),
@@ -27,6 +28,58 @@ let showingShiny = false;
 let onSelect = () => {};
 
 const MAX_BASE_STAT = 200;
+
+const VARIANT_LABELS = {
+  alola: "Alolan",
+  galar: "Galarian",
+  hisui: "Hisuian",
+  paldea: "Paldean",
+  mega: "Mega",
+  "mega-x": "Mega X",
+  "mega-y": "Mega Y",
+  gmax: "Gigantamax",
+};
+
+const REGIONAL_PREFIXES = {
+  alola: "Alolan",
+  galar: "Galarian",
+  hisui: "Hisuian",
+  paldea: "Paldean",
+};
+
+// "vulpix alola" reads better as "Alolan Vulpix".
+const displayName = (pokemon, species) => {
+  const base = species.varieties.find((variety) => variety.isDefault);
+  if (!base) return pokemon.name;
+  const baseName = base.name.replaceAll("-", " ");
+  if (!pokemon.name.startsWith(`${baseName} `)) return pokemon.name;
+  const suffix = pokemon.name.slice(baseName.length + 1).replaceAll(" ", "-");
+  return REGIONAL_PREFIXES[suffix]
+    ? `${REGIONAL_PREFIXES[suffix]} ${baseName}`
+    : pokemon.name;
+};
+
+const renderVariants = ({ pokemon, species }) => {
+  if (species.varieties.length < 2) {
+    elements.variants.innerHTML = "";
+    return;
+  }
+
+  const base = species.varieties.find((variety) => variety.isDefault);
+  elements.variants.innerHTML = species.varieties
+    .map((variety) => {
+      const suffix =
+        base && variety.name.startsWith(`${base.name}-`)
+          ? variety.name.slice(base.name.length + 1)
+          : variety.name;
+      const label = variety.isDefault
+        ? "Normal"
+        : VARIANT_LABELS[suffix] || suffix.replaceAll("-", " ");
+      const active = variety.name.replaceAll("-", " ") === pokemon.name;
+      return `<button class="variantBtn ${active ? "active" : ""}" data-name="${variety.name}">${label}</button>`;
+    })
+    .join("");
+};
 
 const renderAbout = ({ pokemon, species }) => {
   const abilities = pokemon.abilities
@@ -151,9 +204,10 @@ export const renderDetails = (pokemon, species, stages) => {
   placeholder.hidden = true;
   details.hidden = false;
 
-  elements.name.innerText = pokemon.name;
+  elements.name.innerText = displayName(pokemon, species);
   elements.genus.innerText = species.genus || "";
-  elements.number.innerText = `#${pokemon.id}`;
+  // Variants have internal ids above 10000; show the species' dex number.
+  elements.number.innerText = `#${species.id ?? pokemon.id}`;
   elements.types.innerHTML = pokemon.types
     .map((type) => {
       const icon = typeIconUrl(type);
@@ -166,6 +220,7 @@ export const renderDetails = (pokemon, species, stages) => {
   elements.teamButton.classList.toggle("active", isInTeam(pokemon.id));
 
   setArtwork();
+  renderVariants(current);
   renderAbout(current);
   renderStats(current);
   renderMoves(current);
@@ -216,4 +271,20 @@ elements.cryButton.addEventListener("click", () => {
 elements.panels.evolution.addEventListener("click", (event) => {
   const item = event.target.closest(".evoItem[data-id]");
   if (item) onSelect(Number(item.dataset.id));
+});
+
+// Variant chips swap the card to that form (same species, same evolution)
+elements.variants.addEventListener("click", async (event) => {
+  const chip = event.target.closest(".variantBtn");
+  if (!chip || !current) return;
+
+  setLoading(true);
+  try {
+    const pokemon = await getPokemon(chip.dataset.name);
+    renderDetails(pokemon, current.species, current.stages);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
 });
