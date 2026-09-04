@@ -19,7 +19,14 @@
       <img src="./img/logo.svg" alt="Pokémon">
     </div>
 
+    <nav class="deviceTabs">
+      <button class="deviceTab active" data-device="pokedex">Pokédex</button>
+      <button class="deviceTab" data-device="rotom">Rotom</button>
+    </nav>
+
     <div class="stage">
+
+      <!-- ================= The Pokédex ================= -->
       <div class="pokedex closed">
 
         <div class="half left">
@@ -30,7 +37,8 @@
               <span class="light yellow"></span>
               <span class="light green"></span>
             </div>
-            <button class="closeDex" title="Close the Pokédex">✕</button>
+            <button class="topBtn diceDex" title="Random Pokémon">🎲</button>
+            <button class="topBtn closeDex" title="Close the Pokédex">✕</button>
           </div>
           <div class="screen listScreen">
             <div class="searchBox">
@@ -43,13 +51,6 @@
 
         <div class="half right">
           <div class="face infoFace">
-            <nav class="appMenu">
-              <button class="appBtn active" data-app="dex">📱<span>Dex</span></button>
-              <button class="appBtn" data-app="quiz">❓<span>Quiz</span></button>
-              <button class="appBtn" data-app="team">👥<span>Team</span></button>
-              <button class="appBtn" data-app="compare">⚖️<span>Compare</span></button>
-              <button class="appBtn randomBtn" type="button">🎲<span>Random</span></button>
-            </nav>
             <div class="screen infoScreen">
               <div class="screenBody infoBody">
                 <div class="placeholder">Choose a Pokémon!</div>
@@ -84,35 +85,6 @@
                   <section class="tabPanel" data-panel="more" hidden></section>
                 </div>
               </div>
-
-              <div class="screenBody quizBody" hidden>
-                <h3 class="appTitle">Who's that Pokémon?</h3>
-                <div class="quizImageBox"><img class="quizImage" alt="Who's that Pokémon?"></div>
-                <form class="quizForm">
-                  <input class="quizInput" type="text" placeholder="Your guess…" autocomplete="off" data-1p-ignore data-lpignore="true">
-                  <button type="submit" class="quizGuess">Guess</button>
-                </form>
-                <p class="quizFeedback"></p>
-                <div class="quizActions">
-                  <button type="button" class="quizReveal">Reveal</button>
-                  <button type="button" class="quizNext" hidden>Next</button>
-                </div>
-                <p class="quizScore"></p>
-              </div>
-
-              <div class="screenBody teamBody" hidden>
-                <h3 class="appTitle">My Team</h3>
-                <p class="appHint">Click Pokémon in the list to add them (up to 6). Click ✕ to remove.</p>
-                <ul class="teamSlots"></ul>
-                <p class="teamTotal"></p>
-              </div>
-
-              <div class="screenBody compareBody" hidden>
-                <h3 class="appTitle">Compare</h3>
-                <p class="appHint">Click two Pokémon in the list to compare them.</p>
-                <div class="compareHeads"></div>
-                <ul class="compareStats"></ul>
-              </div>
             </div>
           </div>
           <div class="face cover">
@@ -127,6 +99,67 @@
         </div>
 
       </div>
+
+      <!-- ================= The Rotom apps ================= -->
+      <div class="rotom" hidden>
+        <div class="rotomEyes">
+          <span class="rotomEye"></span>
+          <span class="rotomEye"></span>
+        </div>
+
+        <nav class="appMenu">
+          <button class="appBtn active" data-app="quiz">❓<span>Quiz</span></button>
+          <button class="appBtn" data-app="team">👥<span>Team</span></button>
+          <button class="appBtn" data-app="compare">⚖️<span>Compare</span></button>
+        </nav>
+
+        <div class="screen rotomScreen">
+
+          <div class="screenBody quizBody">
+            <h3 class="appTitle">Who's that Pokémon?</h3>
+            <div class="quizModes">
+              <button class="quizMode active" data-mode="sight">👁 Silhouette</button>
+              <button class="quizMode" data-mode="sound">🔊 Cry</button>
+            </div>
+            <div class="quizImageBox">
+              <img class="quizImage" alt="Who's that Pokémon?">
+              <button type="button" class="quizPlay" title="Play the cry" hidden>🔊</button>
+            </div>
+            <form class="quizForm">
+              <input class="quizInput" type="text" placeholder="Your guess…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <button type="submit" class="quizGuess">Guess</button>
+            </form>
+            <p class="quizFeedback"></p>
+            <div class="quizActions">
+              <button type="button" class="quizReveal">Reveal</button>
+              <button type="button" class="quizNext" hidden>Next</button>
+            </div>
+            <p class="quizScore"></p>
+          </div>
+
+          <div class="screenBody teamBody" hidden>
+            <h3 class="appTitle">My Team</h3>
+            <div class="picker">
+              <input class="pickerInput" type="text" placeholder="Search Pokémon to add…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <ul class="pickerResults"></ul>
+            </div>
+            <ul class="teamSlots"></ul>
+            <p class="teamTotal"></p>
+          </div>
+
+          <div class="screenBody compareBody" hidden>
+            <h3 class="appTitle">Compare</h3>
+            <div class="picker">
+              <input class="pickerInput" type="text" placeholder="Search Pokémon to compare…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <ul class="pickerResults"></ul>
+            </div>
+            <div class="compareHeads"></div>
+            <ul class="compareStats"></ul>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
 

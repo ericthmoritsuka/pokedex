@@ -1,4 +1,5 @@
 import { getPokemon, spriteUrl } from "./api.js";
+import { createPicker } from "./picker.js";
 
 const body = document.querySelector(".compareBody");
 const heads = body.querySelector(".compareHeads");
@@ -80,5 +81,7 @@ heads.addEventListener("click", (event) => {
   slots[Number(button.dataset.slot)] = null;
   render();
 });
+
+createPicker(body.querySelector(".picker"), addToCompare);
 
 render();

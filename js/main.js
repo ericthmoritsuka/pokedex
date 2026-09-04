@@ -13,40 +13,59 @@ import {
   showMessage,
 } from "./details.js";
 import { enterQuiz } from "./quiz.js";
-import { renderTeam, toggleTeamMember } from "./team.js";
-import { addToCompare } from "./compare.js";
+import { renderTeam } from "./team.js";
+import "./compare.js";
 
 const pokedex = document.querySelector(".pokedex");
+const rotom = document.querySelector(".rotom");
 const cover = document.querySelector(".cover");
+const deviceTabs = document.querySelector(".deviceTabs");
+const appMenu = document.querySelector(".appMenu");
+const diceButton = document.querySelector(".diceDex");
 const searchInput = document.querySelector("#search");
 const noResults = document.querySelector(".noResults");
-const appMenu = document.querySelector(".appMenu");
 
 const openPokedex = () => pokedex.classList.remove("closed");
 const closePokedex = () => pokedex.classList.add("closed");
 
-// ---------- App modes: the right screen hosts several "apps" ----------
+// ---------- Devices: the Pokédex and the Rotom apps ----------
 
-const bodies = {
-  dex: document.querySelector(".infoBody"),
+const setDevice = (name) => {
+  deviceTabs.querySelectorAll(".deviceTab").forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.device === name);
+  });
+  pokedex.hidden = name !== "pokedex";
+  rotom.hidden = name !== "rotom";
+  if (name === "rotom") enterApp(currentApp);
+};
+
+// ---------- Rotom apps ----------
+
+const appBodies = {
   quiz: document.querySelector(".quizBody"),
   team: document.querySelector(".teamBody"),
   compare: document.querySelector(".compareBody"),
 };
 
-let mode = "dex";
+let currentApp = "quiz";
 
-const setMode = (next) => {
-  mode = next;
-  appMenu.querySelectorAll(".appBtn[data-app]").forEach((button) => {
-    button.classList.toggle("active", button.dataset.app === next);
-  });
-  Object.entries(bodies).forEach(([name, body]) => {
-    body.hidden = name !== next;
-  });
-  if (next === "quiz") enterQuiz();
-  if (next === "team") renderTeam();
+const enterApp = (app) => {
+  if (app === "quiz") enterQuiz();
+  if (app === "team") renderTeam();
 };
+
+const setApp = (app) => {
+  currentApp = app;
+  appMenu.querySelectorAll(".appBtn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.app === app);
+  });
+  Object.entries(appBodies).forEach(([name, body]) => {
+    body.hidden = name !== app;
+  });
+  enterApp(app);
+};
+
+// ---------- Pokédex ----------
 
 // Guards against out-of-order responses: only the most recent click may render.
 let latestRequest = 0;
@@ -72,30 +91,22 @@ const selectPokemon = async (id) => {
   }
 };
 
-// What a click in the list does depends on the active app.
-const handleListClick = (id) => {
-  if (mode === "team") {
-    toggleTeamMember(id);
-  } else if (mode === "compare") {
-    addToCompare(id);
-  } else {
-    if (mode !== "dex") setMode("dex");
-    selectPokemon(id);
-  }
-};
-
 const init = async () => {
   initDetails(selectPokemon);
 
   try {
-    buildMenu(await getPokemonList(), handleListClick);
+    buildMenu(await getPokemonList(), selectPokemon);
   } catch (error) {
     noResults.innerText = "Could not reach PokéAPI";
     noResults.hidden = false;
     console.error(error);
   }
 
-  // Deep link: opening the site with #25 goes straight to that pokemon.
+  // Deep links: #rotom opens the apps device, #25 goes straight to that pokemon.
+  if (location.hash === "#rotom") {
+    setDevice("rotom");
+    return;
+  }
   const id = Number(location.hash.replace("#", ""));
   if (id) {
     openPokedex();
@@ -103,29 +114,32 @@ const init = async () => {
   }
 };
 
+deviceTabs.addEventListener("click", (event) => {
+  const tab = event.target.closest(".deviceTab");
+  if (tab) setDevice(tab.dataset.device);
+});
+
+appMenu.addEventListener("click", (event) => {
+  const button = event.target.closest(".appBtn");
+  if (button) setApp(button.dataset.app);
+});
+
 cover.addEventListener("click", openPokedex);
 document.querySelector(".closeDex").addEventListener("click", closePokedex);
+
+diceButton.addEventListener("click", () => {
+  diceButton.classList.remove("shake");
+  void diceButton.offsetWidth;
+  diceButton.classList.add("shake");
+  selectPokemon(1 + Math.floor(Math.random() * TOTAL_POKEMON));
+});
+
 document.addEventListener("keydown", (event) => {
   // Escape inside an input just leaves the input alone (it may also be
   // dismissing a password manager popup) — only close from outside one.
   if (event.key === "Escape" && event.target.tagName !== "INPUT") {
     closePokedex();
   }
-});
-
-appMenu.addEventListener("click", (event) => {
-  const button = event.target.closest(".appBtn");
-  if (!button) return;
-
-  if (button.classList.contains("randomBtn")) {
-    button.classList.remove("shake");
-    void button.offsetWidth;
-    button.classList.add("shake");
-    setMode("dex");
-    selectPokemon(1 + Math.floor(Math.random() * TOTAL_POKEMON));
-    return;
-  }
-  setMode(button.dataset.app);
 });
 
 searchInput.addEventListener("input", (event) => {
@@ -135,7 +149,7 @@ searchInput.addEventListener("input", (event) => {
 searchInput.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
   const id = firstVisibleId();
-  if (id) handleListClick(id);
+  if (id) selectPokemon(id);
 });
 
 init();

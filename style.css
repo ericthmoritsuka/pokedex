@@ -69,11 +69,43 @@ button {
 .logo {
   display: grid;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .logo img {
   width: 220px;
+}
+
+/* ---------- Device switcher ---------- */
+
+.deviceTabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.deviceTab {
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 24px;
+  border-radius: 20px;
+  border: 3px solid #306cb3;
+  background: #fff;
+  color: #1d2e60;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.deviceTab:hover {
+  border-color: #ffcb05;
+}
+
+.deviceTab.active {
+  background: #ffcb05;
+  border-color: #c99e13;
 }
 
 /* ---------- The Pokédex device ---------- */
@@ -157,8 +189,7 @@ button {
 .light.yellow { background: #ffd93b; }
 .light.green { background: #4dd964; }
 
-.closeDex {
-  margin-left: auto;
+.topBtn {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -171,8 +202,16 @@ button {
   line-height: 1;
 }
 
-.closeDex:hover {
+.topBtn:hover {
   background: #7c0318;
+}
+
+.diceDex {
+  margin-left: auto;
+}
+
+.diceDex.shake {
+  animation: shake 0.5s;
 }
 
 .screen {
@@ -1034,4 +1073,173 @@ button {
 .cBar div {
   height: 100%;
   border-radius: 4px;
+}
+
+/* ---------- The Rotom device ---------- */
+
+.rotom {
+  position: relative;
+  width: min(480px, 94vw);
+  height: 660px;
+  margin: 26px auto 0;
+  background: linear-gradient(160deg, #ff8a3d, #e85d1f);
+  border: 3px solid #a03c0e;
+  border-radius: 26px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: inset 0 -8px 0 #c14f15, 0 15px 30px rgba(0, 0, 0, 0.35);
+  animation: rotom-float 3.5s ease-in-out infinite;
+}
+
+@keyframes rotom-float {
+  50% { transform: translateY(-9px); }
+}
+
+.rotomEyes {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 52px;
+}
+
+.rotomEye {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid #a03c0e;
+  background: radial-gradient(circle at 35% 35%, #c9ecff, #35b6f0 55%, #1583c9);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.rotom .appBtn {
+  border-color: #a03c0e;
+  background: #c14f15;
+}
+
+.rotom .appBtn:hover {
+  background: #a03c0e;
+}
+
+.rotom .appBtn.active {
+  background: #ffcb05;
+  border-color: #c99e13;
+  color: #222;
+}
+
+.rotomScreen {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Quiz modes and cry playback ---------- */
+
+.quizModes {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.quizMode {
+  border: 2px solid #ccc;
+  background: #f4f4f6;
+  border-radius: 16px;
+  padding: 5px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #556;
+}
+
+.quizMode.active {
+  background: #ffcb05;
+  border-color: #c99e13;
+  color: #222;
+}
+
+.quizPlay {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid #306cb3;
+  background: #ffcb05;
+  font-size: 2.2rem;
+  cursor: pointer;
+  animation: pulse 1.6s infinite;
+}
+
+.quizPlay:hover {
+  animation: none;
+}
+
+/* ---------- Pokemon picker (team & compare) ---------- */
+
+.picker {
+  display: grid;
+  gap: 8px;
+}
+
+.pickerInput {
+  font-family: inherit;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 14px;
+  border: 2px solid #306cb3;
+  border-radius: 18px;
+  outline: none;
+}
+
+.pickerInput:focus {
+  border-color: #ffcb05;
+}
+
+.pickerResults {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  min-height: 54px;
+}
+
+.pickerResults > li {
+  flex: 0 0 auto;
+}
+
+.pickerItem {
+  border: 2px solid #306cb3;
+  background: #ffcb05;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.pickerItem:hover {
+  background: #306cb3;
+}
+
+.pickerItem img {
+  width: 44px;
+  height: 44px;
+}
+
+@media (max-width: 720px) {
+  .rotom {
+    height: 76vh;
+    margin-top: 22px;
+  }
+
+  .rotomEye {
+    width: 30px;
+    height: 30px;
+  }
+
+  .rotomEyes {
+    top: -20px;
+  }
 }

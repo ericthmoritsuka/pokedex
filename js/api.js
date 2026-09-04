@@ -131,12 +131,23 @@ const toEvolutionStages = (data) => {
 
 export const isSelectable = (id) => id >= 1 && id <= TOTAL_POKEMON;
 
-export const getPokemonList = async () => {
-  const { results } = await fetchJSON(`${API}/pokemon?limit=${TOTAL_POKEMON}`);
-  return results.map((pokemon) => ({
-    id: idFromUrl(pokemon.url),
-    name: pokemon.name,
-  }));
+let listPromise = null;
+
+export const getPokemonList = () => {
+  if (!listPromise) {
+    listPromise = fetchJSON(`${API}/pokemon?limit=${TOTAL_POKEMON}`).then(
+      ({ results }) =>
+        results.map((pokemon) => ({
+          id: idFromUrl(pokemon.url),
+          name: pokemon.name,
+        }))
+    );
+    // Allow a retry if the first fetch fails.
+    listPromise.catch(() => {
+      listPromise = null;
+    });
+  }
+  return listPromise;
 };
 
 export const getPokemon = async (id) => {

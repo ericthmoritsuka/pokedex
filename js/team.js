@@ -1,4 +1,5 @@
 import { getPokemon, spriteUrl } from "./api.js";
+import { createPicker } from "./picker.js";
 
 const body = document.querySelector(".teamBody");
 const slotsList = body.querySelector(".teamSlots");
@@ -61,3 +62,5 @@ slotsList.addEventListener("click", (event) => {
   const button = event.target.closest(".teamRemove");
   if (button) toggleTeamMember(Number(button.dataset.id));
 });
+
+createPicker(body.querySelector(".picker"), toggleTeamMember);
