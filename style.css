@@ -293,7 +293,7 @@ button {
 .thumb img {
   width: 54px;
   height: 54px;
-  background-color: #ffcb05;
+  background-color: var(--thumbBg, #ffcb05);
   border: 3px solid #306cb3;
   border-radius: 50%;
 }
@@ -1436,14 +1436,26 @@ button {
 .filterCurrent {
   font-size: 0.72rem;
   font-weight: 700;
+  font-family: inherit;
   color: #1d2e60;
   background: rgba(255, 255, 255, 0.85);
+  border: none;
   padding: 5px 14px;
   border-radius: 14px;
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: default;
+}
+
+.filterCurrent.clearable {
+  cursor: pointer;
+}
+
+.filterCurrent.clearable:hover {
+  background: #fff;
+  color: #dc0a2d;
 }
 
 .genTabs,

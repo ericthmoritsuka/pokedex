@@ -55,6 +55,71 @@ export const GAMES = [
     accent: "linear-gradient(90deg,#d13425 0 50%,#8334b5 50%)" },
 ];
 
+// The best-known version exclusives per game pill (families and mascots).
+// PokéAPI has no exclusives data, so this is curated by hand; ids are
+// national dex numbers.
+const EXCLUSIVES = {
+  rby: [
+    { label: "Red", color: "#e06a5a", ids: [23, 24, 43, 44, 45, 56, 57, 58, 59, 123, 125] },
+    { label: "Blue", color: "#6f9bd8", ids: [27, 28, 37, 38, 52, 53, 69, 70, 71, 126, 127] },
+  ],
+  gsc: [
+    { label: "Gold", color: "#d8c06a", ids: [58, 59, 167, 168, 207, 216, 217, 226] },
+    { label: "Silver", color: "#c0c0cc", ids: [37, 38, 165, 166, 225, 227, 231, 232] },
+  ],
+  rse: [
+    { label: "Ruby", color: "#e06a75", ids: [273, 274, 275, 303, 335, 338, 383] },
+    { label: "Sapphire", color: "#6f8fd8", ids: [270, 271, 272, 302, 336, 337, 382] },
+  ],
+  dp: [
+    { label: "Diamond", color: "#a9cbe8", ids: [198, 408, 409, 430, 434, 435, 483] },
+    { label: "Pearl", color: "#eec3d3", ids: [200, 410, 411, 429, 431, 432, 484] },
+  ],
+  hgss: [
+    { label: "HeartGold", color: "#d8c06a", ids: [58, 59, 167, 168, 207, 216, 217, 226] },
+    { label: "SoulSilver", color: "#c0c0cc", ids: [37, 38, 165, 166, 225, 227, 231, 232] },
+  ],
+  bw: [
+    { label: "Black", color: "#8f8f8f", ids: [546, 547, 574, 575, 576, 643] },
+    { label: "White", color: "#f2f2f2", ids: [548, 549, 577, 578, 579, 644] },
+  ],
+  xy: [
+    { label: "X", color: "#7ba7d4", ids: [684, 685, 692, 693, 716] },
+    { label: "Y", color: "#e58a97", ids: [682, 683, 690, 691, 717] },
+  ],
+  oras: [
+    { label: "Omega Ruby", color: "#e06a75", ids: [273, 274, 275, 303, 335, 338, 383] },
+    { label: "Alpha Sapphire", color: "#6f8fd8", ids: [270, 271, 272, 302, 336, 337, 382] },
+  ],
+  sm: [
+    { label: "Sun", color: "#f5b56a", ids: [27, 28, 766, 776, 791] },
+    { label: "Moon", color: "#9aa5e0", ids: [37, 38, 765, 780, 792] },
+  ],
+  usum: [
+    { label: "Ultra Sun", color: "#f09b6a", ids: [27, 28, 766, 776, 791, 798, 806] },
+    { label: "Ultra Moon", color: "#b28ad0", ids: [37, 38, 765, 780, 792, 797, 805] },
+  ],
+  letsgo: [
+    { label: "Let's Go Pikachu", color: "#f5d76a", ids: [27, 28, 43, 44, 45, 58, 59] },
+    { label: "Let's Go Eevee", color: "#cfa080", ids: [37, 38, 52, 53, 69, 70, 71] },
+  ],
+  swsh: [
+    { label: "Sword", color: "#7ccbe8", ids: [83, 273, 274, 275, 554, 555, 633, 634, 635, 782, 783, 784, 865, 888] },
+    { label: "Shield", color: "#ee85ab", ids: [77, 78, 222, 246, 247, 248, 270, 271, 272, 704, 705, 706, 864, 889] },
+  ],
+  sv: [
+    { label: "Scarlet", color: "#e0806f", ids: [246, 247, 248, 434, 435, 936, 984, 985, 986, 987, 988, 989, 1005, 1007] },
+    { label: "Violet", color: "#b48ad8", ids: [316, 317, 371, 372, 373, 937, 990, 991, 992, 993, 994, 995, 1006, 1008] },
+  ],
+};
+
+// Which version (if any) this pokemon is exclusive to in the selected game.
+export const exclusiveFor = (id) => {
+  const versions = selectedGame && EXCLUSIVES[selectedGame];
+  if (!versions) return null;
+  return versions.find((version) => version.ids.includes(id)) || null;
+};
+
 const GENS_KEY = "pokedex.gens";
 const GAME_KEY = "pokedex.game";
 
@@ -160,8 +225,22 @@ export const initGenBar = () => {
         `<button class="genTab gameTab ${selectedGame === game.key ? "active" : ""}" data-game="${game.key}" style="--gc:${game.accent}">${game.label}</button>`
     ).join("");
 
-    currentChip.innerText = currentLabel();
+    const filtered = selectedGame || selected.size > 0;
+    currentChip.innerText = filtered ? `${currentLabel()} ✕` : "All";
+    currentChip.classList.toggle("clearable", Boolean(filtered));
   };
+
+  // Clicking the chip clears the active filter without opening the rows.
+  currentChip.addEventListener("click", () => {
+    if (!selectedGame && selected.size === 0) return;
+    selectedGame = null;
+    gameIds = null;
+    gameSet = null;
+    selected.clear();
+    save();
+    render();
+    notify();
+  });
 
   toggles.forEach((toggle) => {
     toggle.addEventListener("click", () => {

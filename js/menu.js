@@ -1,5 +1,5 @@
 import { spriteUrl } from "./api.js";
-import { isAllowed } from "./gens.js";
+import { isAllowed, exclusiveFor } from "./gens.js";
 
 const menu = document.querySelector(".menu");
 const items = new Map();
@@ -39,12 +39,25 @@ export const filterMenu = (term) => {
   let visible = 0;
 
   for (const item of items.values()) {
+    const id = Number(item.dataset.id);
     const matchesQuery =
       !query ||
       item.dataset.name.includes(query) ||
       item.dataset.id === query;
-    item.hidden = !matchesQuery || !isAllowed(Number(item.dataset.id));
+    item.hidden = !matchesQuery || !isAllowed(id);
     if (!item.hidden) visible++;
+
+    // With a game selected, version exclusives tint their circle.
+    const thumb = item.querySelector(".thumb");
+    const img = thumb.querySelector("img");
+    const exclusive = exclusiveFor(id);
+    if (exclusive) {
+      img.style.setProperty("--thumbBg", exclusive.color);
+      thumb.title = `#${id} ${item.dataset.name} — ${exclusive.label} exclusive`;
+    } else {
+      img.style.removeProperty("--thumbBg");
+      thumb.title = `#${id} ${item.dataset.name}`;
+    }
   }
 
   return visible;
