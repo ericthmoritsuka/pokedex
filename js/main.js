@@ -154,14 +154,6 @@ document.addEventListener("keydown", (event) => {
 searchInput.addEventListener("input", refreshList);
 onGenChange(refreshList);
 
-// "?" buttons toggle the help text they point at.
-document.addEventListener("click", (event) => {
-  const button = event.target.closest(".helpBtn");
-  if (!button) return;
-  const box = document.querySelector(button.dataset.help);
-  if (box) box.hidden = !box.hidden;
-});
-
 searchInput.addEventListener("keydown", (event) => {
   if (event.key !== "Enter") return;
   const id = firstVisibleId();

@@ -55,12 +55,12 @@ export const initGenBar = () => {
 
   const render = () => {
     bar.innerHTML = [
+      `<button class="genTab helpBtn" data-help="#helpGens" title="What is this?">?</button>`,
       `<button class="genTab ${selected.size === 0 ? "active" : ""}" data-gen="all">All</button>`,
       ...GENERATIONS.map(
         (gen) =>
           `<button class="genTab ${selected.has(gen.key) ? "active" : ""}" data-gen="${gen.key}">${gen.label}</button>`
       ),
-      `<button class="genTab helpBtn" data-help="#helpGens" title="What is this?">?</button>`,
     ].join("");
   };
 

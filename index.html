@@ -202,6 +202,16 @@
     </div>
   </div>
 
+  <script>
+    // Inline so the help buttons always work, even if a cached script lags
+    // behind the page after a deploy.
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest(".helpBtn");
+      if (!button) return;
+      const box = document.querySelector(button.dataset.help);
+      if (box) box.hidden = !box.hidden;
+    });
+  </script>
   <script type="module" src="./js/main.js"></script>
 </body>
 

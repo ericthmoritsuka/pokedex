@@ -1410,11 +1410,14 @@ button {
   background: #7c0318;
 }
 
+/* the gen bar's ? matches its sibling pills */
 .genTab.helpBtn {
-  width: 26px;
-  height: 26px;
-  padding: 0;
-  border-radius: 50%;
+  width: auto;
+  height: auto;
+  padding: 5px 12px;
+  border-radius: 14px;
+  font-size: 0.7rem;
+  vertical-align: baseline;
 }
 
 .helpBox {
