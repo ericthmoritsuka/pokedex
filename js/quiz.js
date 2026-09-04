@@ -10,6 +10,7 @@ const feedback = body.querySelector(".quizFeedback");
 const revealButton = body.querySelector(".quizReveal");
 const nextButton = body.querySelector(".quizNext");
 const scoreBox = body.querySelector(".quizScore");
+const resetButton = body.querySelector(".quizReset");
 
 const STORAGE_KEY = "pokedex.quizScore";
 const score = JSON.parse(
@@ -119,6 +120,15 @@ revealButton.addEventListener("click", () => {
 nextButton.addEventListener("click", newRound);
 
 playButton.addEventListener("click", playCry);
+
+resetButton.addEventListener("click", () => {
+  score.correct = 0;
+  score.played = 0;
+  score.streak = 0;
+  score.best = 0;
+  saveScore();
+  renderScore();
+});
 
 body.querySelector(".quizModes").addEventListener("click", (event) => {
   const button = event.target.closest(".quizMode");

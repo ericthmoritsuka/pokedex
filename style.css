@@ -108,6 +108,23 @@ button {
   border-color: #c99e13;
 }
 
+.credits {
+  margin-top: 34px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #2b3a55;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.credits a {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.credits a:hover {
+  color: #dc0a2d;
+}
+
 /* ---------- The Pokédex device ---------- */
 
 .stage {
@@ -920,6 +937,21 @@ button {
 .quizScore {
   font-size: 0.78rem;
   color: #667;
+}
+
+.quizReset {
+  justify-self: center;
+  border: none;
+  background: none;
+  color: #99a;
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.quizReset:hover {
+  color: #dc0a2d;
+  text-decoration: underline;
 }
 
 /* ---------- Team app ---------- */
