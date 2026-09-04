@@ -3,6 +3,7 @@ import {
   getPokemon,
   getSpecies,
   getEvolutionStages,
+  getDefenseMatchups,
 } from "./api.js";
 import { initGenBar, onGenChange, randomAllowedId } from "./gens.js";
 import { buildMenu, setActive, filterMenu, firstVisibleId } from "./menu.js";
@@ -83,9 +84,12 @@ const selectPokemon = async (id) => {
       getPokemon(id),
       getSpecies(id),
     ]);
-    const stages = await getEvolutionStages(species.evolutionChainUrl);
+    const [stages, matchups] = await Promise.all([
+      getEvolutionStages(species.evolutionChainUrl),
+      getDefenseMatchups(pokemon.types),
+    ]);
     if (request !== latestRequest) return;
-    renderDetails(pokemon, species, stages);
+    renderDetails(pokemon, species, stages, matchups);
   } catch (error) {
     if (request === latestRequest) showMessage("Failed to load. Try again!");
     console.error(error);

@@ -1,4 +1,10 @@
-import { spriteUrl, typeIconUrl, isSelectable, getPokemon } from "./api.js";
+import {
+  spriteUrl,
+  typeIconUrl,
+  isSelectable,
+  getPokemon,
+  getDefenseMatchups,
+} from "./api.js";
 import { isInTeam, toggleTeamMember } from "./team.js";
 
 const infoBody = document.querySelector(".infoBody");
@@ -81,10 +87,39 @@ const renderVariants = ({ pokemon, species }) => {
     .join("");
 };
 
-const renderAbout = ({ pokemon, species }) => {
+const FACTOR_LABELS = { 4: "4×", 0.25: "¼×" };
+
+const matchupIcons = (entries) =>
+  entries
+    .map(({ type, factor }) => {
+      const icon = typeIconUrl(type);
+      const badge = FACTOR_LABELS[factor]
+        ? `<i>${FACTOR_LABELS[factor]}</i>`
+        : "";
+      return `<span class="matchup" title="${type} ${factor}×">${
+        icon ? `<img class="typeIconSm" src="${icon}" alt="${type}">` : type
+      }${badge}</span>`;
+    })
+    .join("");
+
+const renderAbout = ({ pokemon, species, matchups }) => {
   const abilities = pokemon.abilities
     .map((a) => `${a.name}${a.hidden ? " (hidden)" : ""}`)
     .join(", ");
+
+  const matchupRows = matchups
+    ? [
+        matchups.weak.length
+          ? `<li><strong>Weak to</strong><span class="matchups">${matchupIcons(matchups.weak)}</span></li>`
+          : "",
+        matchups.resist.length
+          ? `<li><strong>Resists</strong><span class="matchups">${matchupIcons(matchups.resist)}</span></li>`
+          : "",
+        matchups.immune.length
+          ? `<li><strong>Immune to</strong><span class="matchups">${matchupIcons(matchups.immune)}</span></li>`
+          : "",
+      ].join("")
+    : "";
 
   elements.panels.about.innerHTML = `
     ${species.flavor ? `<p class="flavor">${species.flavor}</p>` : ""}
@@ -92,6 +127,7 @@ const renderAbout = ({ pokemon, species }) => {
       <li><strong>Height</strong><span>${pokemon.height} m</span></li>
       <li><strong>Weight</strong><span>${pokemon.weight} kg</span></li>
       <li><strong>Abilities</strong><span class="cap">${abilities}</span></li>
+      ${matchupRows}
     </ul>`;
 };
 
@@ -196,8 +232,8 @@ export const showMessage = (message) => {
   details.hidden = true;
 };
 
-export const renderDetails = (pokemon, species, stages) => {
-  current = { pokemon, species, stages };
+export const renderDetails = (pokemon, species, stages, matchups) => {
+  current = { pokemon, species, stages, matchups };
   showingShiny = false;
 
   details.className = `details ${pokemon.types[0]}`;
@@ -281,7 +317,8 @@ elements.variants.addEventListener("click", async (event) => {
   setLoading(true);
   try {
     const pokemon = await getPokemon(chip.dataset.name);
-    renderDetails(pokemon, current.species, current.stages);
+    const matchups = await getDefenseMatchups(pokemon.types);
+    renderDetails(pokemon, current.species, current.stages, matchups);
   } catch (error) {
     console.error(error);
   } finally {

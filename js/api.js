@@ -136,6 +136,44 @@ const toEvolutionStages = (data) => {
 
 export const isSelectable = (id) => id >= 1 && id <= TOTAL_POKEMON;
 
+const typeRelationsCache = new Map();
+
+const getTypeRelations = (typeName) => {
+  if (!typeRelationsCache.has(typeName)) {
+    typeRelationsCache.set(
+      typeName,
+      fetchJSON(`${API}/type/${typeName}`).then((data) => data.damage_relations)
+    );
+  }
+  return typeRelationsCache.get(typeName);
+};
+
+// Defensive matchups for a type combination: which attacking types are
+// super effective (weak), not very effective (resist), or useless (immune).
+export const getDefenseMatchups = async (types) => {
+  const relations = await Promise.all(types.map(getTypeRelations));
+
+  const factors = {};
+  for (const name of Object.keys(TYPE_IDS)) factors[name] = 1;
+  for (const relation of relations) {
+    for (const entry of relation.double_damage_from) factors[entry.name] *= 2;
+    for (const entry of relation.half_damage_from) factors[entry.name] *= 0.5;
+    for (const entry of relation.no_damage_from) factors[entry.name] = 0;
+  }
+
+  const weak = [];
+  const resist = [];
+  const immune = [];
+  for (const [type, factor] of Object.entries(factors)) {
+    if (factor === 0) immune.push({ type, factor });
+    else if (factor > 1) weak.push({ type, factor });
+    else if (factor < 1) resist.push({ type, factor });
+  }
+  weak.sort((a, b) => b.factor - a.factor);
+  resist.sort((a, b) => a.factor - b.factor);
+  return { weak, resist, immune };
+};
+
 let listPromise = null;
 
 export const getPokemonList = () => {

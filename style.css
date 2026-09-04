@@ -657,6 +657,32 @@ button {
   align-self: center;
 }
 
+/* Type effectiveness rows */
+.matchups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.matchup {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.typeIconSm {
+  height: 17px;
+  width: auto;
+}
+
+.matchup i {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.62rem;
+  color: #556;
+}
+
 /* Stats */
 
 .status {
