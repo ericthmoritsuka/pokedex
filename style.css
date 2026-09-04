@@ -225,9 +225,14 @@ button {
 /* ---------- Left screen: search + list ---------- */
 
 .listScreen {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+}
+
+.listScreen .menu {
+  flex: 1 1 0;
+  min-height: 0;
 }
 
 .searchBox input {
@@ -1366,6 +1371,72 @@ button {
 .genTab.active {
   background: #ffcb05;
   border-color: #c99e13;
+}
+
+/* ---------- Help buttons and boxes ---------- */
+
+.helpBtn {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #306cb3;
+  background: #fff;
+  color: #306cb3;
+  font-weight: 700;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: 2px;
+}
+
+.helpBtn:hover {
+  background: #ffcb05;
+  border-color: #c99e13;
+  color: #222;
+}
+
+.topbar .helpBtn {
+  width: 30px;
+  height: 30px;
+  border-color: #7c0318;
+  background: #96041d;
+  color: #fff;
+  font-size: 0.8rem;
+  vertical-align: baseline;
+}
+
+.topbar .helpBtn:hover {
+  background: #7c0318;
+}
+
+.genTab.helpBtn {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.helpBox {
+  background: #fff8dc;
+  border: 2px solid #ffcb05;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  color: #333;
+  text-align: left;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.genHelp {
+  margin: -12px auto 25px;
+  max-width: min(620px, 90vw);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.nameallBody .helpBox {
+  margin: 0 16px 12px;
 }
 
 /* ---------- Regional variants ---------- */

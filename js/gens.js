@@ -60,12 +60,13 @@ export const initGenBar = () => {
         (gen) =>
           `<button class="genTab ${selected.has(gen.key) ? "active" : ""}" data-gen="${gen.key}">${gen.label}</button>`
       ),
+      `<button class="genTab helpBtn" data-help="#helpGens" title="What is this?">?</button>`,
     ].join("");
   };
 
   bar.addEventListener("click", (event) => {
     const tab = event.target.closest(".genTab");
-    if (!tab) return;
+    if (!tab || !tab.dataset.gen) return;
 
     if (tab.dataset.gen === "all") {
       selected.clear();

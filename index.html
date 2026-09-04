@@ -25,6 +25,7 @@
     </nav>
 
     <nav class="genTabs"></nav>
+    <p class="helpBox genHelp" id="helpGens" hidden>The generation filter chooses which regions' Pokémon appear everywhere: the Pokédex list, the random button, the games, and the search pickers. Click regions to combine them; <strong>All</strong> shows everything.</p>
 
     <div class="stage">
 
@@ -39,10 +40,12 @@
               <span class="light yellow"></span>
               <span class="light green"></span>
             </div>
+            <button class="topBtn helpBtn" data-help="#helpDex" title="What is this?">?</button>
             <button class="topBtn diceDex" title="Random Pokémon">🎲</button>
             <button class="topBtn closeDex" title="Close the Pokédex">✕</button>
           </div>
           <div class="screen listScreen">
+            <p class="helpBox" id="helpDex" hidden>The Pokédex: search or scroll the list and click a Pokémon to see its details — stats, moves, evolutions, and regional forms. 🎲 opens a random Pokémon and ✕ folds the device shut.</p>
             <div class="searchBox">
               <input type="search" id="search" placeholder="Search by name or number" autocomplete="off" data-1p-ignore data-lpignore="true">
             </div>
@@ -119,7 +122,8 @@
           </div>
 
           <div class="screenBody quizBody">
-            <h3 class="appTitle">Who's that Pokémon?</h3>
+            <h3 class="appTitle">Who's that Pokémon? <button class="helpBtn" data-help="#helpQuiz" title="How to play">?</button></h3>
+            <p class="helpBox" id="helpQuiz" hidden>Guess the Pokémon from its silhouette — or switch to <strong>Cry</strong> mode and guess by sound alone. Type your guess or hit Reveal to give up. Score, streak, and best are saved in this browser.</p>
             <div class="quizModes">
               <button class="quizMode active" data-mode="sight">👁 Silhouette</button>
               <button class="quizMode" data-mode="sound">🔊 Cry</button>
@@ -141,7 +145,8 @@
           </div>
 
           <div class="screenBody teamBody" hidden>
-            <h3 class="appTitle">My Team</h3>
+            <h3 class="appTitle">My Team <button class="helpBtn" data-help="#helpTeam" title="How it works">?</button></h3>
+            <p class="helpBox" id="helpTeam" hidden>Build a team of up to six: search below and click a Pokémon to add it; ✕ removes. The pokeball button on a Pokédex card also recruits. Your team is saved in this browser.</p>
             <div class="picker">
               <input class="pickerInput" type="text" placeholder="Search Pokémon to add…" autocomplete="off" data-1p-ignore data-lpignore="true">
               <ul class="pickerResults"></ul>
@@ -151,7 +156,8 @@
           </div>
 
           <div class="screenBody compareBody" hidden>
-            <h3 class="appTitle">Compare</h3>
+            <h3 class="appTitle">Compare <button class="helpBtn" data-help="#helpCompare" title="How it works">?</button></h3>
+            <p class="helpBox" id="helpCompare" hidden>Search below and click two Pokémon to put their base stats side by side — the higher stat is highlighted. ✕ on a slot clears it for a new challenger.</p>
             <div class="picker">
               <input class="pickerInput" type="text" placeholder="Search Pokémon to compare…" autocomplete="off" data-1p-ignore data-lpignore="true">
               <ul class="pickerResults"></ul>
@@ -161,7 +167,8 @@
           </div>
 
           <div class="screenBody nameallBody" hidden>
-            <h3 class="appTitle">Name them all!</h3>
+            <h3 class="appTitle">Name them all! <button class="helpBtn" data-help="#helpNameall" title="How to play">?</button></h3>
+            <p class="helpBox" id="helpNameall" hidden>Type the names of every Pokémon from the selected generations before the timer runs out — correct names fill their slots instantly. Pick the generations in the bar at the top, the time limit below, and whether the slots show silhouettes.</p>
             <div class="naSetup">
               <p class="naSummary"></p>
               <div class="naTimes"></div>
