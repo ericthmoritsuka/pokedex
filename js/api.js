@@ -93,8 +93,9 @@ const toSpeciesViewModel = (data) => {
   const flavorEntries = data.flavor_text_entries.filter(
     (entry) => entry.language.name === "en"
   );
-  // Later entries come from newer games.
-  const flavor = flavorEntries.at(-1)?.flavor_text.replaceAll(/[\n\f\r]/g, " ");
+  // Later entries come from newer games. (No Array.at: older phones lack it.)
+  const lastEntry = flavorEntries[flavorEntries.length - 1];
+  const flavor = lastEntry && lastEntry.flavor_text.replace(/[\n\f\r]/g, " ");
   const genus = data.genera.find((entry) => entry.language.name === "en")?.genus;
 
   return {

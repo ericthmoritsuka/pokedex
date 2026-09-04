@@ -184,6 +184,9 @@ details.querySelector(".tabs").addEventListener("click", (event) => {
   Object.entries(elements.panels).forEach(([name, panel]) => {
     panel.hidden = name !== tab.dataset.tab;
   });
+
+  // On small screens the panel sits below the fold; bring it into view.
+  tab.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 elements.shinyButton.addEventListener("click", () => {

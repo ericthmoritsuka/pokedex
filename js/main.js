@@ -48,12 +48,17 @@ const init = async () => {
 
   try {
     buildMenu(await getPokemonList(), selectPokemon);
-    setTimeout(openPokedex, 500);
   } catch (error) {
     noResults.innerText = "Could not reach PokéAPI";
     noResults.hidden = false;
-    openPokedex();
     console.error(error);
+  }
+
+  // Deep link: opening the site with #25 goes straight to that pokemon.
+  const id = Number(location.hash.replace("#", ""));
+  if (id) {
+    openPokedex();
+    selectPokemon(id);
   }
 };
 

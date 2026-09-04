@@ -2,6 +2,7 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
 }
 
 a,
@@ -49,15 +50,14 @@ button {
   position: relative;
 }
 
+/* position: fixed (not background-attachment: fixed, which is broken on
+   mobile browsers) so the image always covers the whole viewport */
 .bg::before {
   content: "";
   background: url("./img/bg.jpg") no-repeat;
-  height: 100%;
   background-position: center;
-  background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
@@ -247,8 +247,13 @@ button {
   border: 3px solid #7c0318;
   border-left: none;
   padding: 14px;
-  display: grid;
+  display: flex;
   box-shadow: inset 8px 0 0 #96041d;
+}
+
+.infoFace .screen {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .cover {
@@ -281,7 +286,8 @@ button {
 }
 
 .infoScreen {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 
 .infoBody {
@@ -289,6 +295,7 @@ button {
   border-radius: 8px;
   overflow-y: auto;
   overflow-x: hidden;
+  flex: 1 1 0;
   min-height: 0;
   transition: opacity 0.2s;
 }
@@ -635,8 +642,21 @@ button {
   }
 
   .right {
-    height: 52vh;
+    height: 58vh;
     transform-origin: center top;
+  }
+
+  /* keep artwork small enough that the tabs and panel stay on screen */
+  .image {
+    max-height: 130px;
+  }
+
+  .detailsTop {
+    padding: 10px 12px 0;
+  }
+
+  .name {
+    font-size: 1.2rem;
   }
 
   .pokedex.closed .right {
