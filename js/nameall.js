@@ -26,6 +26,9 @@ let playing = false;
 
 const normalize = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
+// One guess that legitimately means several pokemon.
+const ALIASES = { nidoran: ["nidoranf", "nidoranm"] };
+
 const renderSetup = async () => {
   try {
     const list = await getPokemonList();
@@ -131,40 +134,40 @@ const accept = (match) => {
   if (found.size === pool.length) finish("You got them all! 🎉");
 };
 
-const exactMatch = () => {
+const exactMatches = () => {
   const guess = normalize(input.value);
-  if (!guess) return null;
-  return (
-    pool.find(
-      (pokemon) => pokemon.normalized === guess && !found.has(pokemon.id)
-    ) || null
+  if (!guess) return { guess, matches: [] };
+  const names = ALIASES[guess] || [guess];
+  const matches = pool.filter(
+    (pokemon) => names.includes(pokemon.normalized) && !found.has(pokemon.id)
   );
+  return { guess, matches };
 };
 
 input.addEventListener("input", () => {
   if (!playing) return;
-  const match = exactMatch();
-  if (!match) return;
+  const { guess, matches } = exactMatches();
+  if (!matches.length) return;
 
   // "mew" is also the start of "mewtwo": while another remaining name
   // continues this one, wait for more letters (space or Enter accepts now).
-  const guess = match.normalized;
+  const matchedIds = new Set(matches.map((pokemon) => pokemon.id));
   const extendable = pool.some(
     (pokemon) =>
       !found.has(pokemon.id) &&
+      !matchedIds.has(pokemon.id) &&
       pokemon.normalized !== guess &&
       pokemon.normalized.startsWith(guess)
   );
   if (extendable && !input.value.endsWith(" ")) return;
 
-  accept(match);
+  matches.forEach(accept);
 });
 
 input.addEventListener("keydown", (event) => {
   if (event.key !== "Enter" || !playing) return;
   event.preventDefault();
-  const match = exactMatch();
-  if (match) accept(match);
+  exactMatches().matches.forEach(accept);
 });
 
 timesBox.addEventListener("click", (event) => {

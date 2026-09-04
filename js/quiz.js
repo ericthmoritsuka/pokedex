@@ -30,6 +30,15 @@ const renderScore = () => {
 // "Mr. Mime", "mr-mime" and "mr mime" should all count.
 const normalize = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
+// "nidoran" is a fair answer for either gender.
+const ALIASES = { nidoran: ["nidoranf", "nidoranm"] };
+
+const guessMatches = (guess, targetName) => {
+  const target = normalize(targetName);
+  if (guess === target) return true;
+  return (ALIASES[guess] || []).includes(target);
+};
+
 const playCry = () => {
   if (!target || !target.cry) return;
   const audio = new Audio(target.cry);
@@ -96,7 +105,7 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   if (!target || revealed || !input.value.trim()) return;
 
-  if (normalize(input.value) === normalize(target.name)) {
+  if (guessMatches(normalize(input.value), target.name)) {
     finishRound(true);
   } else {
     feedback.innerText = "Not this one, try again!";
