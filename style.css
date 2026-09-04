@@ -95,9 +95,15 @@ button {
   transform: translateX(25%);
 }
 
-/* Only the cover should show while closed */
+/* Only the cover should show while closed. The 1s delay hides the body
+   after the fold animation finishes; reopening reveals it instantly. */
+.left {
+  transition: visibility 0s 0s;
+}
+
 .pokedex.closed .left {
   visibility: hidden;
+  transition: visibility 0s 1s;
 }
 
 .half {
@@ -147,6 +153,24 @@ button {
 .light.red { background: #ff4d4d; }
 .light.yellow { background: #ffd93b; }
 .light.green { background: #4dd964; }
+
+.closeDex {
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #7c0318;
+  background: #96041d;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.closeDex:hover {
+  background: #7c0318;
+}
 
 .screen {
   background: #d7dbde;

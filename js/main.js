@@ -18,6 +18,7 @@ const searchInput = document.querySelector("#search");
 const noResults = document.querySelector(".noResults");
 
 const openPokedex = () => pokedex.classList.remove("closed");
+const closePokedex = () => pokedex.classList.add("closed");
 
 // Guards against out-of-order responses: only the most recent click may render.
 let latestRequest = 0;
@@ -63,6 +64,10 @@ const init = async () => {
 };
 
 cover.addEventListener("click", openPokedex);
+document.querySelector(".closeDex").addEventListener("click", closePokedex);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closePokedex();
+});
 
 searchInput.addEventListener("input", (event) => {
   noResults.hidden = filterMenu(event.target.value) > 0;
