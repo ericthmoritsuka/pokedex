@@ -136,38 +136,25 @@ const accept = (match) => {
 
 const exactMatches = () => {
   const guess = normalize(input.value);
-  if (!guess) return { guess, matches: [] };
+  if (!guess) return [];
   const names = ALIASES[guess] || [guess];
-  const matches = pool.filter(
+  return pool.filter(
     (pokemon) => names.includes(pokemon.normalized) && !found.has(pokemon.id)
   );
-  return { guess, matches };
 };
 
+// Exact names are accepted the moment they're typed: "paras" fills Paras
+// right away even if you were heading for "parasect" — just type the
+// longer name again for the other one.
 input.addEventListener("input", () => {
   if (!playing) return;
-  const { guess, matches } = exactMatches();
-  if (!matches.length) return;
-
-  // "mew" is also the start of "mewtwo": while another remaining name
-  // continues this one, wait for more letters (space or Enter accepts now).
-  const matchedIds = new Set(matches.map((pokemon) => pokemon.id));
-  const extendable = pool.some(
-    (pokemon) =>
-      !found.has(pokemon.id) &&
-      !matchedIds.has(pokemon.id) &&
-      pokemon.normalized !== guess &&
-      pokemon.normalized.startsWith(guess)
-  );
-  if (extendable && !input.value.endsWith(" ")) return;
-
-  matches.forEach(accept);
+  exactMatches().forEach(accept);
 });
 
 input.addEventListener("keydown", (event) => {
   if (event.key !== "Enter" || !playing) return;
   event.preventDefault();
-  exactMatches().matches.forEach(accept);
+  exactMatches().forEach(accept);
 });
 
 timesBox.addEventListener("click", (event) => {
