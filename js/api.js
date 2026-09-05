@@ -39,27 +39,17 @@ const idFromUrl = (url) => Number(url.split("/").filter(Boolean).pop());
 
 const cleanName = (name) => name.replaceAll("-", " ");
 
-// Level-up moves sorted by learn level; falls back to the first moves of any
-// kind for pokemon with no level-up data.
-const pickMoves = (data) => {
-  const byLevel = [];
-  for (const entry of data.moves) {
-    const levels = entry.version_group_details
-      .filter((detail) => detail.move_learn_method.name === "level-up")
-      .map((detail) => detail.level_learned_at);
-    if (levels.length) {
-      byLevel.push({ name: cleanName(entry.move.name), level: Math.min(...levels) });
-    }
-  }
-  byLevel.sort((a, b) => a.level - b.level);
-
-  if (!byLevel.length) {
-    return data.moves
-      .slice(0, 12)
-      .map((entry) => ({ name: cleanName(entry.move.name), level: null }));
-  }
-  return byLevel.slice(0, 12);
-};
+// Every move with where it's learned: per version group, by which method,
+// and at what level. The details panel filters this by the selected game.
+const pickMoves = (data) =>
+  data.moves.map((entry) => ({
+    name: cleanName(entry.move.name),
+    versions: entry.version_group_details.map((detail) => ({
+      group: detail.version_group.name,
+      method: detail.move_learn_method.name,
+      level: detail.level_learned_at,
+    })),
+  }));
 
 // Reshape the raw API response into exactly what the UI needs.
 const toPokemonViewModel = (data) => {

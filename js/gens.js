@@ -21,37 +21,37 @@ export const GENERATIONS = [
 // LeafGreen too; Gold/Silver/Crystal; and so on).
 // accent: the games' iconic cover colors, shown as a strip on the pill.
 export const GAMES = [
-  { key: "rby", label: "Red/Blue/Yellow", dexes: ["kanto"],
+  { key: "rby", groups: ["red-blue", "yellow"], label: "Red/Blue/Yellow", dexes: ["kanto"],
     accent: "linear-gradient(90deg,#d5321e 0 33%,#2358a8 33% 66%,#f2c50f 66%)" },
-  { key: "gsc", label: "Gold/Silver/Crystal", dexes: ["original-johto"],
+  { key: "gsc", groups: ["gold-silver", "crystal"], label: "Gold/Silver/Crystal", dexes: ["original-johto"],
     accent: "linear-gradient(90deg,#b69e31 0 33%,#9b9ba5 33% 66%,#77c5e0 66%)" },
-  { key: "rse", label: "Ruby/Sapphire/Emerald", dexes: ["hoenn"],
+  { key: "rse", groups: ["ruby-sapphire", "emerald"], label: "Ruby/Sapphire/Emerald", dexes: ["hoenn"],
     accent: "linear-gradient(90deg,#c72c3b 0 33%,#1362b0 33% 66%,#009e60 66%)" },
-  { key: "dp", label: "Diamond/Pearl", dexes: ["original-sinnoh"],
+  { key: "dp", groups: ["diamond-pearl"], label: "Diamond/Pearl", dexes: ["original-sinnoh"],
     accent: "linear-gradient(90deg,#86b6e2 0 50%,#e2b3c4 50%)" },
-  { key: "plat", label: "Platinum", dexes: ["extended-sinnoh"],
+  { key: "plat", groups: ["platinum"], label: "Platinum", dexes: ["extended-sinnoh"],
     accent: "linear-gradient(90deg,#8f8f9d,#c6c6cf)" },
-  { key: "hgss", label: "HeartGold/SoulSilver", dexes: ["updated-johto"],
+  { key: "hgss", groups: ["heartgold-soulsilver"], label: "HeartGold/SoulSilver", dexes: ["updated-johto"],
     accent: "linear-gradient(90deg,#d4af37 0 50%,#a8a8b8 50%)" },
-  { key: "bw", label: "Black/White", dexes: ["original-unova"],
+  { key: "bw", groups: ["black-white"], label: "Black/White", dexes: ["original-unova"],
     accent: "linear-gradient(90deg,#3a3a3a 0 50%,#e8e8e8 50%)" },
-  { key: "b2w2", label: "Black 2/White 2", dexes: ["updated-unova"],
+  { key: "b2w2", groups: ["black-2-white-2"], label: "Black 2/White 2", dexes: ["updated-unova"],
     accent: "linear-gradient(90deg,#2b2b2b 0 50%,#cfd6db 50%)" },
-  { key: "xy", label: "X/Y", dexes: ["kalos-central", "kalos-coastal", "kalos-mountain"],
+  { key: "xy", groups: ["x-y"], label: "X/Y", dexes: ["kalos-central", "kalos-coastal", "kalos-mountain"],
     accent: "linear-gradient(90deg,#025da6 0 50%,#ea1a3e 50%)" },
-  { key: "oras", label: "Omega Ruby/Alpha Sapphire", dexes: ["updated-hoenn"],
+  { key: "oras", groups: ["omega-ruby-alpha-sapphire"], label: "Omega Ruby/Alpha Sapphire", dexes: ["updated-hoenn"],
     accent: "linear-gradient(90deg,#ab2813 0 50%,#26649c 50%)" },
-  { key: "sm", label: "Sun/Moon", dexes: ["original-alola"],
+  { key: "sm", groups: ["sun-moon"], label: "Sun/Moon", dexes: ["original-alola"],
     accent: "linear-gradient(90deg,#f5991b 0 50%,#4a5fc1 50%)" },
-  { key: "usum", label: "Ultra Sun/Ultra Moon", dexes: ["updated-alola"],
+  { key: "usum", groups: ["ultra-sun-ultra-moon"], label: "Ultra Sun/Ultra Moon", dexes: ["updated-alola"],
     accent: "linear-gradient(90deg,#e8590c 0 50%,#6b2d8b 50%)" },
-  { key: "letsgo", label: "Let's Go", dexes: ["letsgo-kanto"],
+  { key: "letsgo", groups: ["lets-go-pikachu-lets-go-eevee"], label: "Let's Go", dexes: ["letsgo-kanto"],
     accent: "linear-gradient(90deg,#f5c518 0 50%,#b47448 50%)" },
-  { key: "swsh", label: "Sword/Shield", dexes: ["galar", "isle-of-armor", "crown-tundra"],
+  { key: "swsh", groups: ["sword-shield"], label: "Sword/Shield", dexes: ["galar", "isle-of-armor", "crown-tundra"],
     accent: "linear-gradient(90deg,#00a1e8 0 50%,#e70059 50%)" },
-  { key: "pla", label: "Legends: Arceus", dexes: ["hisui"],
+  { key: "pla", groups: ["legends-arceus"], label: "Legends: Arceus", dexes: ["hisui"],
     accent: "linear-gradient(90deg,#b39b4d 0 50%,#3f5d58 50%)" },
-  { key: "sv", label: "Scarlet/Violet", dexes: ["paldea", "kitakami", "blueberry"],
+  { key: "sv", groups: ["scarlet-violet"], label: "Scarlet/Violet", dexes: ["paldea", "kitakami", "blueberry"],
     accent: "linear-gradient(90deg,#d13425 0 50%,#8334b5 50%)" },
 ];
 
@@ -111,6 +111,17 @@ const EXCLUSIVES = {
     { label: "Scarlet", color: "#e0806f", ids: [246, 247, 248, 434, 435, 936, 984, 985, 986, 987, 988, 989, 1005, 1007] },
     { label: "Violet", color: "#b48ad8", ids: [316, 317, 371, 372, 373, 937, 990, 991, 992, 993, 994, 995, 1006, 1008] },
   ],
+};
+
+// The selected game's version groups (for filtering move data), or null.
+export const selectedVersionGroups = () => {
+  const game = GAMES.find((entry) => entry.key === selectedGame);
+  return game ? game.groups : null;
+};
+
+export const selectedGameLabel = () => {
+  const game = GAMES.find((entry) => entry.key === selectedGame);
+  return game ? game.label : null;
 };
 
 // Which version (if any) this pokemon is exclusive to in the selected game.

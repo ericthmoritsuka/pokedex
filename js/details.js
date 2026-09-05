@@ -6,6 +6,11 @@ import {
   getDefenseMatchups,
 } from "./api.js";
 import { isInTeam, toggleTeamMember } from "./team.js";
+import {
+  selectedVersionGroups,
+  selectedGameLabel,
+  onGenChange,
+} from "./gens.js";
 
 const infoBody = document.querySelector(".infoBody");
 const placeholder = infoBody.querySelector(".placeholder");
@@ -152,16 +157,93 @@ const renderStats = ({ pokemon }) => {
     </ul>`;
 };
 
+// Version groups in release order, used to pick the newest game a pokemon
+// has move data for when no game filter is active.
+const GROUP_ORDER = [
+  "red-blue", "yellow", "gold-silver", "crystal", "ruby-sapphire", "emerald",
+  "firered-leafgreen", "diamond-pearl", "platinum", "heartgold-soulsilver",
+  "black-white", "black-2-white-2", "x-y", "omega-ruby-alpha-sapphire",
+  "sun-moon", "ultra-sun-ultra-moon", "lets-go-pikachu-lets-go-eevee",
+  "sword-shield", "brilliant-diamond-and-shining-pearl", "legends-arceus",
+  "scarlet-violet",
+];
+
+const latestGroupFor = (pokemon) => {
+  for (let i = GROUP_ORDER.length - 1; i >= 0; i--) {
+    const group = GROUP_ORDER[i];
+    if (
+      pokemon.moves.some((move) =>
+        move.versions.some((version) => version.group === group)
+      )
+    ) {
+      return group;
+    }
+  }
+  return null;
+};
+
+const MOVE_SECTIONS = [
+  { method: "level-up", title: "Level-up", showLevel: true },
+  { method: "machine", title: "TM / HM", showLevel: false },
+  { method: "egg", title: "Egg moves", showLevel: false },
+  { method: "tutor", title: "Move tutor", showLevel: false },
+];
+
 const renderMoves = ({ pokemon }) => {
-  elements.panels.moves.innerHTML = `
-    <ul class="moves">
-      ${pokemon.moves
+  const gameLabel = selectedGameLabel();
+  const groups = selectedVersionGroups() || [latestGroupFor(pokemon)];
+
+  const byMethod = {};
+  for (const move of pokemon.moves) {
+    for (const section of MOVE_SECTIONS) {
+      const entries = move.versions.filter(
+        (version) =>
+          groups.includes(version.group) && version.method === section.method
+      );
+      if (!entries.length) continue;
+      (byMethod[section.method] ||= []).push({
+        name: move.name,
+        level: Math.min(...entries.map((entry) => entry.level)),
+      });
+    }
+  }
+
+  (byMethod["level-up"] || []).sort(
+    (a, b) => a.level - b.level || a.name.localeCompare(b.name)
+  );
+  for (const method of ["machine", "egg", "tutor"]) {
+    (byMethod[method] || []).sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  const sections = MOVE_SECTIONS.filter(
+    (section) => byMethod[section.method]?.length
+  );
+
+  const note = gameLabel
+    ? `Moves in ${gameLabel}`
+    : "Moves from the newest game with data";
+
+  elements.panels.moves.innerHTML = sections.length
+    ? `<p class="movesNote">${note}</p>` +
+      sections
         .map(
-          (move) =>
-            `<li>${move.level ? `<span class="lvl">Lv ${move.level}</span>` : ""}${move.name}</li>`
+          (section) => `
+          <h4 class="movesHead">${section.title} · ${byMethod[section.method].length}</h4>
+          <ul class="moves">
+            ${byMethod[section.method]
+              .map(
+                (move) =>
+                  `<li>${
+                    section.showLevel
+                      ? `<span class="lvl">${move.level > 0 ? `Lv ${move.level}` : "Evolve"}</span>`
+                      : ""
+                  }${move.name}</li>`
+              )
+              .join("")}
+          </ul>`
         )
-        .join("")}
-    </ul>`;
+        .join("")
+    : `<p class="movesNote">${note}</p><p class="flavor">No move data for this Pokémon in this game.</p>`;
 };
 
 const renderEvolution = ({ stages }) => {
@@ -230,6 +312,12 @@ export const showMessage = (message) => {
   placeholder.innerText = message;
   placeholder.hidden = false;
   details.hidden = true;
+};
+
+// Back to the "Choose a Pokémon!" state (used when deselecting).
+export const clearDetails = () => {
+  current = null;
+  showMessage("Choose a Pokémon!");
 };
 
 export const renderDetails = (pokemon, species, stages, matchups) => {
@@ -301,6 +389,11 @@ elements.cryButton.addEventListener("click", () => {
   const audio = new Audio(current.pokemon.cry);
   audio.volume = 0.4;
   audio.play().catch(() => {});
+});
+
+// A different game filter changes which moves apply.
+onGenChange(() => {
+  if (current) renderMoves(current);
 });
 
 // Evolution chain clicks load that pokemon

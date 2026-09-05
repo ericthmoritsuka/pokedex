@@ -12,6 +12,7 @@ import {
   renderDetails,
   setLoading,
   showMessage,
+  clearDetails,
 } from "./details.js";
 import { enterQuiz } from "./quiz.js";
 import { renderTeam } from "./team.js";
@@ -73,9 +74,11 @@ const setApp = (app) => {
 
 // Guards against out-of-order responses: only the most recent click may render.
 let latestRequest = 0;
+let selectedId = null;
 
 const selectPokemon = async (id) => {
   const request = ++latestRequest;
+  selectedId = id;
   setActive(id);
   setLoading(true);
 
@@ -102,12 +105,25 @@ const refreshList = () => {
   noResults.hidden = filterMenu(searchInput.value) > 0;
 };
 
+// Clicking the already-selected pokemon in the list deselects it.
+const handleListClick = (id) => {
+  if (id === selectedId) {
+    selectedId = null;
+    latestRequest++; // ignore any in-flight fetch for the old selection
+    setActive(null);
+    clearDetails();
+    setLoading(false);
+    return;
+  }
+  selectPokemon(id);
+};
+
 const init = async () => {
   initGenBar();
   initDetails(selectPokemon);
 
   try {
-    buildMenu(await getPokemonList(), selectPokemon);
+    buildMenu(await getPokemonList(), handleListClick);
     refreshList();
   } catch (error) {
     noResults.innerText = "Could not reach PokéAPI";

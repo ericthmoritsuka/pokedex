@@ -30,7 +30,7 @@ export const buildMenu = (pokemonList, onSelect) => {
 
 export const setActive = (id) => {
   menu.querySelector("img.ativo")?.classList.remove("ativo");
-  items.get(id)?.querySelector("img").classList.add("ativo");
+  if (id !== null) items.get(id)?.querySelector("img").classList.add("ativo");
 };
 
 export const filterMenu = (term) => {

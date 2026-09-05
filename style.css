@@ -735,6 +735,23 @@ button {
 
 /* Moves */
 
+.movesNote {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #889;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.movesHead {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #445;
+  margin: 14px 0 8px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 3px;
+}
+
 .moves {
   display: grid;
   grid-template-columns: 1fr 1fr;
