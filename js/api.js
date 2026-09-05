@@ -133,14 +133,14 @@ export const getGamePokedexIds = async (dexNames) => {
   const lists = await Promise.all(
     dexNames.map((name) => {
       if (!pokedexCache.has(name)) {
-        pokedexCache.set(
-          name,
-          fetchJSON(`${API}/pokedex/${name}`).then((data) =>
-            data.pokemon_entries.map((entry) =>
-              idFromUrl(entry.pokemon_species.url)
-            )
+        const promise = fetchJSON(`${API}/pokedex/${name}`).then((data) =>
+          data.pokemon_entries.map((entry) =>
+            idFromUrl(entry.pokemon_species.url)
           )
         );
+        // A failed fetch must not poison the cache: allow a retry.
+        promise.catch(() => pokedexCache.delete(name));
+        pokedexCache.set(name, promise);
       }
       return pokedexCache.get(name);
     })

@@ -27,7 +27,7 @@ const render = () => {
     .map((slot, i) =>
       slot
         ? `<div class="compareHead" style="border-color:${COLORS[i]}">
-            <button class="compareClear" data-slot="${i}" title="Clear">✕</button>
+            <button class="compareClear" data-slot="${i}" title="Clear" aria-label="Clear ${slot.name} from the comparison">✕</button>
             <img src="${spriteUrl(slot.id)}" alt="${slot.name}">
             <span class="cap">${slot.name}</span>
           </div>`

@@ -13,6 +13,7 @@ import {
   setLoading,
   showMessage,
   clearDetails,
+  shownPokemonId,
 } from "./details.js";
 import { enterQuiz } from "./quiz.js";
 import { renderTeam } from "./team.js";
@@ -94,7 +95,12 @@ const selectPokemon = async (id) => {
     if (request !== latestRequest) return;
     renderDetails(pokemon, species, stages, matchups);
   } catch (error) {
-    if (request === latestRequest) showMessage("Failed to load. Try again!");
+    if (request === latestRequest) {
+      showMessage("Failed to load. Try again!");
+      // Allow the next click on the same pokemon to retry, not deselect.
+      selectedId = null;
+      setActive(null);
+    }
     console.error(error);
   } finally {
     if (request === latestRequest) setLoading(false);
@@ -102,12 +108,15 @@ const selectPokemon = async (id) => {
 };
 
 const refreshList = () => {
+  // After a fatal API failure the banner shows the error, not match counts.
+  if (noResults.dataset.error) return;
   noResults.hidden = filterMenu(searchInput.value) > 0;
 };
 
-// Clicking the already-selected pokemon in the list deselects it.
+// Clicking the already-selected pokemon in the list deselects it — but if
+// the card is showing one of its variants, restore the base form instead.
 const handleListClick = (id) => {
-  if (id === selectedId) {
+  if (id === selectedId && shownPokemonId() === id) {
     selectedId = null;
     latestRequest++; // ignore any in-flight fetch for the old selection
     setActive(null);
@@ -126,7 +135,8 @@ const init = async () => {
     buildMenu(await getPokemonList(), handleListClick);
     refreshList();
   } catch (error) {
-    noResults.innerText = "Could not reach PokéAPI";
+    noResults.innerText = "Could not reach PokéAPI — reload to retry";
+    noResults.dataset.error = "1";
     noResults.hidden = false;
     console.error(error);
   }

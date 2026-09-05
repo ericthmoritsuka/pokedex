@@ -134,9 +134,28 @@ export const exclusiveFor = (id) => {
 const GENS_KEY = "pokedex.gens";
 const GAME_KEY = "pokedex.game";
 
+// Corrupted or stale storage must never brick the app: parse defensively
+// and drop keys that no longer exist.
+const loadStoredGens = () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(GENS_KEY) || "[]");
+    if (!Array.isArray(stored)) return new Set();
+    return new Set(
+      stored.filter((key) => GENERATIONS.some((gen) => gen.key === key))
+    );
+  } catch {
+    return new Set();
+  }
+};
+
+const loadStoredGame = () => {
+  const stored = localStorage.getItem(GAME_KEY);
+  return GAMES.some((game) => game.key === stored) ? stored : null;
+};
+
 // Empty selection means "all generations".
-let selected = new Set(JSON.parse(localStorage.getItem(GENS_KEY) || "[]"));
-let selectedGame = localStorage.getItem(GAME_KEY) || null;
+let selected = loadStoredGens();
+let selectedGame = loadStoredGame();
 let gameIds = null; // number[] once the game's pokedex is loaded
 let gameSet = null;
 
@@ -215,7 +234,8 @@ export const initGenBar = () => {
   const currentLabel = () => {
     if (selectedGame) {
       const game = GAMES.find((entry) => entry.key === selectedGame);
-      if (game) return game.label;
+      // "…" while the game's pokedex is still being fetched
+      if (game) return gameSet ? game.label : `${game.label} …`;
     }
     return selected.size
       ? selectedGenerations().map((gen) => gen.label).join(", ")
@@ -237,9 +257,16 @@ export const initGenBar = () => {
     ).join("");
 
     const filtered = selectedGame || selected.size > 0;
-    currentChip.innerText = filtered ? `${currentLabel()} ✕` : "All";
+    // The label may ellipsize, but the ✕ must always stay visible.
+    currentChip.innerHTML = filtered
+      ? `<span class="chipLabel">${currentLabel()}</span><span class="chipClear">✕</span>`
+      : "All";
     currentChip.classList.toggle("clearable", Boolean(filtered));
   };
+
+  // Keep the pills and chip honest whenever the filter changes for any
+  // reason — including a game pokedex fetch finishing or failing.
+  onGenChange(render);
 
   // Clicking the chip clears the active filter without opening the rows.
   currentChip.addEventListener("click", () => {

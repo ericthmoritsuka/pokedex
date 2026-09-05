@@ -1,8 +1,13 @@
+html,
+body {
+  /* clip (not just hidden): iOS Safari ignores overflow-x on body alone */
+  overflow-x: clip;
+}
+
 body {
   margin: 0px;
   padding: 0px;
   font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
 }
 
 a,
@@ -386,10 +391,6 @@ button {
   color: #222;
 }
 
-.appBtn.shake {
-  animation: shake 0.5s;
-}
-
 @keyframes shake {
   0%, 100% { transform: rotate(0); }
   20% { transform: rotate(-15deg); }
@@ -458,10 +459,6 @@ button {
   text-transform: uppercase;
 }
 
-.appHint {
-  font-size: 0.78rem;
-  color: #667;
-}
 
 .placeholder {
   height: 100%;
@@ -718,6 +715,12 @@ button {
 
 .statValue {
   text-align: right;
+}
+
+.statRow.total {
+  border-top: 2px solid #eee;
+  padding-top: 8px;
+  font-size: 0.78rem;
 }
 
 .statBar {
@@ -1394,6 +1397,9 @@ button {
 
 @media (max-width: 720px) {
   .rotom {
+    /* leave room for the arms so they show whole instead of as clipped
+       slivers at the viewport edge */
+    width: min(480px, calc(100vw - 116px));
     height: 76vh;
     margin-top: 34px;
   }
@@ -1460,10 +1466,20 @@ button {
   padding: 5px 14px;
   border-radius: 14px;
   max-width: 300px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+
+.chipLabel {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  cursor: default;
+}
+
+.chipClear {
+  flex: none;
 }
 
 .filterCurrent.clearable {
@@ -1572,15 +1588,6 @@ button {
   background: #7c0318;
 }
 
-/* the gen bar's ? matches its sibling pills */
-.genTab.helpBtn {
-  width: auto;
-  height: auto;
-  padding: 5px 12px;
-  border-radius: 14px;
-  font-size: 0.7rem;
-  vertical-align: baseline;
-}
 
 .helpBox {
   background: #fff8dc;

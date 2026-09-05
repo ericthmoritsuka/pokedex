@@ -4,7 +4,19 @@ import { isAllowed, exclusiveFor } from "./gens.js";
 const menu = document.querySelector(".menu");
 const items = new Map();
 
-export const buildMenu = (pokemonList, onSelect) => {
+let onSelect = () => {};
+
+// One delegated listener for the whole list, attached once — buildMenu may
+// be called again (e.g. a retry) without stacking handlers.
+menu.addEventListener("click", (event) => {
+  const thumb = event.target.closest(".thumb");
+  if (!thumb) return;
+  event.preventDefault();
+  onSelect(Number(thumb.closest("li").dataset.id));
+});
+
+export const buildMenu = (pokemonList, selectHandler) => {
+  onSelect = selectHandler;
   const fragment = document.createDocumentFragment();
 
   for (const pokemon of pokemonList) {
@@ -12,20 +24,13 @@ export const buildMenu = (pokemonList, onSelect) => {
     item.dataset.id = pokemon.id;
     item.dataset.name = pokemon.name;
     item.innerHTML = `<a class="thumb" href="#" title="#${pokemon.id} ${pokemon.name}">
-      <img loading="lazy" width="70" height="70" src="${spriteUrl(pokemon.id)}" alt="${pokemon.name}">
+      <img loading="lazy" width="54" height="54" src="${spriteUrl(pokemon.id)}" alt="${pokemon.name}">
     </a>`;
     items.set(pokemon.id, item);
     fragment.append(item);
   }
 
   menu.replaceChildren(fragment);
-
-  menu.addEventListener("click", (event) => {
-    const thumb = event.target.closest(".thumb");
-    if (!thumb) return;
-    event.preventDefault();
-    onSelect(Number(thumb.closest("li").dataset.id));
-  });
 };
 
 export const setActive = (id) => {

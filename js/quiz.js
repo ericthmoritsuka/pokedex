@@ -13,14 +13,30 @@ const scoreBox = body.querySelector(".quizScore");
 const resetButton = body.querySelector(".quizReset");
 
 const STORAGE_KEY = "pokedex.quizScore";
-const score = JSON.parse(
-  localStorage.getItem(STORAGE_KEY) ||
-    '{"correct":0,"played":0,"streak":0,"best":0}'
-);
+
+// Corrupted storage must never brick the app; every field defaults to 0.
+const loadScore = () => {
+  let stored = {};
+  try {
+    stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {};
+  } catch {
+    stored = {};
+  }
+  const number = (value) => (Number.isFinite(value) ? value : 0);
+  return {
+    correct: number(stored.correct),
+    played: number(stored.played),
+    streak: number(stored.streak),
+    best: number(stored.best),
+  };
+};
+
+const score = loadScore();
 
 let mode = "sight"; // "sight" (silhouette) or "sound" (cry)
 let target = null;
 let revealed = false;
+let roundToken = 0; // abandons in-flight rounds on mode switch or re-entry
 
 const saveScore = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(score));
 
@@ -57,6 +73,7 @@ const randomPokemon = async () => {
 };
 
 const newRound = async () => {
+  const token = ++roundToken;
   revealed = false;
   target = null;
   feedback.innerText = "";
@@ -69,12 +86,19 @@ const newRound = async () => {
   playButton.hidden = mode !== "sound";
 
   try {
-    target = await randomPokemon();
+    const pokemon = await randomPokemon();
+    if (token !== roundToken) return; // a newer round took over
+    target = pokemon;
     image.src = target.image;
     if (mode === "sound") playCry();
     input.focus();
   } catch (error) {
-    feedback.innerText = "Could not load a Pokémon. Try again!";
+    if (token === roundToken) {
+      feedback.innerText = "Could not load a Pokémon. Try again!";
+      // Give the player a way to retry: Next starts a fresh round.
+      nextButton.hidden = false;
+      revealButton.hidden = true;
+    }
     console.error(error);
   }
 };

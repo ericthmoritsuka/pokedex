@@ -28,7 +28,7 @@
       <button type="button" class="filterToggle" data-target=".genTabs">Region ▾</button>
       <button type="button" class="filterToggle" data-target=".gameTabs">Game ▾</button>
       <button type="button" class="filterCurrent" title="Clear the filter">All</button>
-      <button class="helpBtn" data-help="#helpGens" title="What is this?">?</button>
+      <button class="helpBtn" data-help="#helpGens" title="What is this?" aria-label="What are these filters?">?</button>
     </div>
     <nav class="genTabs" hidden></nav>
     <nav class="gameTabs" hidden></nav>
@@ -47,14 +47,14 @@
               <span class="light yellow"></span>
               <span class="light green"></span>
             </div>
-            <button class="topBtn helpBtn" data-help="#helpDex" title="What is this?">?</button>
-            <button class="topBtn diceDex" title="Random Pokémon">🎲</button>
-            <button class="topBtn closeDex" title="Close the Pokédex">✕</button>
+            <button class="topBtn helpBtn" data-help="#helpDex" title="What is this?" aria-label="What is the Pokédex?">?</button>
+            <button class="topBtn diceDex" title="Random Pokémon" aria-label="Open a random Pokémon">🎲</button>
+            <button class="topBtn closeDex" title="Close the Pokédex" aria-label="Close the Pokédex">✕</button>
           </div>
           <div class="screen listScreen">
             <p class="helpBox" id="helpDex" hidden>The Pokédex: search or scroll the list and click a Pokémon to see its details — stats, moves, evolutions, and regional forms. 🎲 opens a random Pokémon and ✕ folds the device shut.</p>
             <div class="searchBox">
-              <input type="search" id="search" placeholder="Search by name or number" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <input type="search" id="search" placeholder="Search by name or number" aria-label="Search Pokémon by name or number" autocomplete="off" data-1p-ignore data-lpignore="true">
             </div>
             <p class="noResults" hidden>No Pokémon found</p>
             <ul class="menu"></ul>
@@ -78,9 +78,9 @@
                     <div class="artworkBox">
                       <img class="image" alt="">
                       <div class="artButtons">
-                        <button class="iconBtn shinyBtn" title="Toggle shiny">✨</button>
-                        <button class="iconBtn cryBtn" title="Play cry">🔊</button>
-                        <button class="iconBtn teamBtn" title="Add to team"><img src="./img/pokeball.png" alt="Team"></button>
+                        <button class="iconBtn shinyBtn" title="Toggle shiny" aria-label="Toggle shiny artwork">✨</button>
+                        <button class="iconBtn cryBtn" title="Play cry" aria-label="Play the cry">🔊</button>
+                        <button class="iconBtn teamBtn" title="Add to team" aria-label="Add to or remove from the team"><img src="./img/pokeball.png" alt="Team"></button>
                       </div>
                     </div>
                   </div>
@@ -129,7 +129,7 @@
           </div>
 
           <div class="screenBody quizBody">
-            <h3 class="appTitle">Who's that Pokémon? <button class="helpBtn" data-help="#helpQuiz" title="How to play">?</button></h3>
+            <h3 class="appTitle">Who's that Pokémon? <button class="helpBtn" data-help="#helpQuiz" title="How to play" aria-label="How to play the quiz">?</button></h3>
             <p class="helpBox" id="helpQuiz" hidden>Guess the Pokémon from its silhouette — or switch to <strong>Cry</strong> mode and guess by sound alone. Type your guess or hit Reveal to give up. Score, streak, and best are saved in this browser.</p>
             <div class="quizModes">
               <button class="quizMode active" data-mode="sight">👁 Silhouette</button>
@@ -137,10 +137,10 @@
             </div>
             <div class="quizImageBox">
               <img class="quizImage" alt="Who's that Pokémon?">
-              <button type="button" class="quizPlay" title="Play the cry" hidden>🔊</button>
+              <button type="button" class="quizPlay" title="Play the cry" aria-label="Play the cry again" hidden>🔊</button>
             </div>
             <form class="quizForm">
-              <input class="quizInput" type="text" placeholder="Your guess…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <input class="quizInput" type="text" placeholder="Your guess…" aria-label="Your guess" autocomplete="off" data-1p-ignore data-lpignore="true">
               <button type="submit" class="quizGuess">Guess</button>
             </form>
             <p class="quizFeedback"></p>
@@ -153,10 +153,10 @@
           </div>
 
           <div class="screenBody teamBody" hidden>
-            <h3 class="appTitle">My Team <button class="helpBtn" data-help="#helpTeam" title="How it works">?</button></h3>
+            <h3 class="appTitle">My Team <button class="helpBtn" data-help="#helpTeam" title="How it works" aria-label="How the team works">?</button></h3>
             <p class="helpBox" id="helpTeam" hidden>Build a team of up to six: search below and click a Pokémon to add it; ✕ removes. The pokeball button on a Pokédex card also recruits. Your team is saved in this browser.</p>
             <div class="picker">
-              <input class="pickerInput" type="text" placeholder="Search Pokémon to add…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <input class="pickerInput" type="text" placeholder="Search Pokémon to add…" aria-label="Search Pokémon to add" autocomplete="off" data-1p-ignore data-lpignore="true">
               <ul class="pickerResults"></ul>
             </div>
             <ul class="teamSlots"></ul>
@@ -164,10 +164,10 @@
           </div>
 
           <div class="screenBody compareBody" hidden>
-            <h3 class="appTitle">Compare <button class="helpBtn" data-help="#helpCompare" title="How it works">?</button></h3>
+            <h3 class="appTitle">Compare <button class="helpBtn" data-help="#helpCompare" title="How it works" aria-label="How compare works">?</button></h3>
             <p class="helpBox" id="helpCompare" hidden>Search below and click two Pokémon to put their base stats side by side — the higher stat is highlighted. ✕ on a slot clears it for a new challenger.</p>
             <div class="picker">
-              <input class="pickerInput" type="text" placeholder="Search Pokémon to compare…" autocomplete="off" data-1p-ignore data-lpignore="true">
+              <input class="pickerInput" type="text" placeholder="Search Pokémon to compare…" aria-label="Search Pokémon to compare" autocomplete="off" data-1p-ignore data-lpignore="true">
               <ul class="pickerResults"></ul>
             </div>
             <div class="compareHeads"></div>
@@ -175,7 +175,7 @@
           </div>
 
           <div class="screenBody nameallBody" hidden>
-            <h3 class="appTitle">Name them all! <button class="helpBtn" data-help="#helpNameall" title="How to play">?</button></h3>
+            <h3 class="appTitle">Name them all! <button class="helpBtn" data-help="#helpNameall" title="How to play" aria-label="How to play name them all">?</button></h3>
             <p class="helpBox" id="helpNameall" hidden>Type the names of every Pokémon from the selected generations before the timer runs out — correct names fill their slots instantly. Pick the generations in the bar at the top, the time limit below, and whether the slots show silhouettes.</p>
             <div class="naSetup">
               <p class="naSummary"></p>
@@ -187,7 +187,7 @@
             </div>
             <div class="naGame" hidden>
               <div class="naHud">
-                <input class="naInput" type="text" placeholder="Type a name…" autocomplete="off" data-1p-ignore data-lpignore="true">
+                <input class="naInput" type="text" placeholder="Type a name…" aria-label="Type a Pokémon name" autocomplete="off" data-1p-ignore data-lpignore="true">
                 <span class="naTimer">15:00</span>
                 <span class="naCount">0/0</span>
                 <button type="button" class="naGiveUp">Give up</button>

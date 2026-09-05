@@ -88,6 +88,13 @@ const start = async () => {
       normalized: normalize(pokemon.name),
     }));
 
+  // A zero-pokemon pool would be an unwinnable 0/0 game.
+  if (!pool.length) {
+    summary.innerText =
+      "No Pokémon in this selection — change the filters above and try again.";
+    return;
+  }
+
   found = new Set();
   playing = true;
   timeLeft = minutes * 60;

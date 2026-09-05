@@ -8,16 +8,30 @@ const totalBox = body.querySelector(".teamTotal");
 const STORAGE_KEY = "pokedex.team";
 const MAX_MEMBERS = 6;
 
-let team = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+// Corrupted storage must never brick the app: keep only plausible ids.
+const loadTeam = () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if (!Array.isArray(stored)) return [];
+    return stored.filter((id) => Number.isInteger(id) && id > 0);
+  } catch {
+    return [];
+  }
+};
+
+let team = loadTeam();
 
 const save = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(team));
 
 export const isInTeam = (id) => team.includes(id);
 
 export const renderTeam = async () => {
-  const members = (
-    await Promise.all(team.map((id) => getPokemon(id).catch(() => null)))
-  ).filter(Boolean);
+  // A member whose fetch fails still occupies its slot (and can be removed).
+  const members = await Promise.all(
+    team.map((id) =>
+      getPokemon(id).catch(() => ({ id, name: `#${id}`, statsTotal: 0 }))
+    )
+  );
 
   const slots = [];
   for (let i = 0; i < MAX_MEMBERS; i++) {
@@ -25,7 +39,7 @@ export const renderTeam = async () => {
     slots.push(
       member
         ? `<li class="teamSlot filled">
-            <button class="teamRemove" data-id="${member.id}" title="Remove">✕</button>
+            <button class="teamRemove" data-id="${member.id}" title="Remove" aria-label="Remove ${member.name} from the team">✕</button>
             <img src="${spriteUrl(member.id)}" alt="${member.name}">
             <span class="cap">${member.name}</span>
           </li>`

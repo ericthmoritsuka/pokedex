@@ -320,6 +320,10 @@ export const clearDetails = () => {
   showMessage("Choose a Pokémon!");
 };
 
+// The pokemon currently shown on the card (a variant differs from the
+// species number), or null when the placeholder is showing.
+export const shownPokemonId = () => (current ? current.pokemon.id : null);
+
 export const renderDetails = (pokemon, species, stages, matchups) => {
   current = { pokemon, species, stages, matchups };
   showingShiny = false;
@@ -327,6 +331,8 @@ export const renderDetails = (pokemon, species, stages, matchups) => {
   details.className = `details ${pokemon.types[0]}`;
   placeholder.hidden = true;
   details.hidden = false;
+  // Show the new pokemon from the top, wherever the old card was scrolled.
+  infoBody.scrollTop = 0;
 
   elements.name.innerText = displayName(pokemon, species);
   elements.genus.innerText = species.genus || "";
@@ -341,7 +347,11 @@ export const renderDetails = (pokemon, species, stages, matchups) => {
     })
     .join("");
 
-  elements.teamButton.classList.toggle("active", isInTeam(pokemon.id));
+  // Team membership is per species, so all forms share one pokeball state.
+  elements.teamButton.classList.toggle(
+    "active",
+    isInTeam(species.id ?? pokemon.id)
+  );
 
   setArtwork();
   renderVariants(current);
@@ -369,7 +379,10 @@ details.querySelector(".tabs").addEventListener("click", (event) => {
   });
 
   // On small screens the panel sits below the fold; bring it into view.
-  tab.scrollIntoView({ behavior: "smooth", block: "start" });
+  // On desktop this would yank the whole page, so only do it on phones.
+  if (window.matchMedia("(max-width: 720px)").matches) {
+    tab.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
 
 elements.shinyButton.addEventListener("click", () => {
@@ -380,7 +393,9 @@ elements.shinyButton.addEventListener("click", () => {
 
 elements.teamButton.addEventListener("click", async () => {
   if (!current) return;
-  const inTeam = await toggleTeamMember(current.pokemon.id);
+  const inTeam = await toggleTeamMember(
+    current.species.id ?? current.pokemon.id
+  );
   elements.teamButton.classList.toggle("active", inTeam);
 });
 
@@ -407,14 +422,19 @@ elements.variants.addEventListener("click", async (event) => {
   const chip = event.target.closest(".variantBtn");
   if (!chip || !current) return;
 
+  // If the user selects a different pokemon while this loads, `current`
+  // changes and this stale variant must not overwrite the new card.
+  const base = current;
   setLoading(true);
   try {
     const pokemon = await getPokemon(chip.dataset.name);
     const matchups = await getDefenseMatchups(pokemon.types);
-    renderDetails(pokemon, current.species, current.stages, matchups);
+    if (current !== base) return;
+    renderDetails(pokemon, base.species, base.stages, matchups);
+    setLoading(false);
   } catch (error) {
     console.error(error);
   } finally {
-    setLoading(false);
+    if (current === base) setLoading(false);
   }
 });
