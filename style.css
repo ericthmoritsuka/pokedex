@@ -408,6 +408,18 @@ button {
   place-content: center;
   justify-items: center;
   gap: 22px;
+  transition: visibility 0s;
+}
+
+/* While open, the rotated-away cover still lies invisibly over the whole
+   info screen; mobile browsers can send it the touch gestures, which blocks
+   scrolling the panels underneath. Hide it for real once the fold-open
+   animation finishes: a 1s visibility transition stays visible through
+   the fold, then flips to hidden when it completes. */
+.pokedex:not(.closed) .cover {
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 1s;
 }
 
 .cover .lens {
