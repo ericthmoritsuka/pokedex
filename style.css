@@ -422,6 +422,30 @@ button {
   transition: visibility 1s;
 }
 
+/* Once the fold-open animation ends, main.js adds .settled and the 3D
+   machinery is dropped entirely: mobile browsers mis-route touch scrolls
+   on panels kept inside a preserve-3d/backface-visibility context, which
+   left the tab panels (moves, stats, ...) unscrollable by touch. */
+.pokedex.settled,
+.pokedex.settled .right {
+  transform-style: flat;
+}
+
+.pokedex.settled .face {
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+}
+
+.pokedex.settled .cover {
+  display: none;
+}
+
+/* ... including the perspective above it, restored whenever a fold
+   animation is about to run again. */
+.stage:has(.pokedex.settled) {
+  perspective: none;
+}
+
 .cover .lens {
   width: 96px;
   height: 96px;

@@ -29,8 +29,24 @@ const diceButton = document.querySelector(".diceDex");
 const searchInput = document.querySelector("#search");
 const noResults = document.querySelector(".noResults");
 
-const openPokedex = () => pokedex.classList.remove("closed");
-const closePokedex = () => pokedex.classList.add("closed");
+// The 3D fold context (preserve-3d/backface-visibility) breaks touch
+// scrolling of the info panels in mobile browsers, so once the 1s fold
+// animation ends, .settled flattens it away (style.css) until closing.
+let settleTimer;
+
+const openPokedex = () => {
+  pokedex.classList.remove("closed");
+  clearTimeout(settleTimer);
+  settleTimer = setTimeout(() => {
+    if (!pokedex.classList.contains("closed")) pokedex.classList.add("settled");
+  }, 1050);
+};
+
+const closePokedex = () => {
+  clearTimeout(settleTimer);
+  pokedex.classList.remove("settled");
+  pokedex.classList.add("closed");
+};
 
 // ---------- Devices: the Pokédex and the Rotom apps ----------
 
