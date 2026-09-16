@@ -226,10 +226,19 @@
           <button type="button" class="cardsClose" title="Close" aria-label="Close the card gallery">✕</button>
         </div>
         <p class="cardsNote"></p>
+        <div class="cardsSort">
+          <span>Sort</span>
+          <button type="button" class="sortBtn active" data-sort="set" data-label="Set">Set</button>
+          <button type="button" class="sortBtn" data-sort="rarity" data-label="Rarity">Rarity</button>
+          <button type="button" class="sortBtn" data-sort="price" data-label="Price">Price</button>
+          <button type="button" class="sortBtn" data-sort="energy" data-label="Energy">Energy</button>
+        </div>
         <ul class="cardsGrid"></ul>
       </div>
     </div>
     <div class="cardZoom" hidden>
+      <button type="button" class="zoomNav zoomPrev" title="Previous card" aria-label="Previous card">‹</button>
+      <button type="button" class="zoomNav zoomNext" title="Next card" aria-label="Next card">›</button>
       <div class="zoomPanel">
         <button type="button" class="zoomClose" title="Close" aria-label="Close the card view">✕</button>
         <img class="zoomImage" alt="">
