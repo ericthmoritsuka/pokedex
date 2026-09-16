@@ -894,6 +894,13 @@ button {
     max-height: 130px;
   }
 
+  /* four art buttons don't fit in one column beside the small artwork;
+     a 2×2 grid keeps the cards button off the tabs below */
+  .artButtons {
+    grid-template-columns: repeat(2, auto);
+    justify-items: end;
+  }
+
   .detailsTop {
     padding: 10px 12px 0;
   }
