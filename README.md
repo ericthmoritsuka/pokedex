@@ -8,9 +8,12 @@ Try it live: https://ericthmoritsuka.github.io/pokedex/
 - Tabs for description, stats, moves (with learn levels), the evolution chain, and breeding/misc data.
 - Shiny artwork toggle and the Pokémon's actual cry.
 - Trading cards: the 🃏 button counts every TCG card of the selected Pokémon and
-  opens a gallery — click a card for its set, rarity, illustrator, and market price.
+  opens a gallery — click a card for its set, rarity, illustrator, and market
+  prices in USD/EUR with BRL conversions at the day's rate. The set and
+  illustrator names are links to their own galleries.
 - Data, sprites, and type icons come from PokéAPI and its sprite CDN; card data
-  and scans from [TCGdex](https://tcgdex.dev). Everything is cached in memory.
+  and scans from [TCGdex](https://tcgdex.dev); exchange rates from
+  [Frankfurter](https://frankfurter.dev). Everything is cached in memory.
 
 ## Running
 
