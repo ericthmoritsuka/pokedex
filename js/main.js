@@ -18,6 +18,7 @@ import {
 import { enterQuiz } from "./quiz.js";
 import { renderTeam } from "./team.js";
 import { enterNameAll } from "./nameall.js";
+import { closeCardsUI } from "./cards.js";
 import "./compare.js";
 
 const pokedex = document.querySelector(".pokedex");
@@ -193,6 +194,9 @@ document.addEventListener("keydown", (event) => {
   // Escape inside an input just leaves the input alone (it may also be
   // dismissing a password manager popup) — only close from outside one.
   if (event.key === "Escape" && event.target.tagName !== "INPUT") {
+    // The card gallery sits on top of everything: Escape peels it (and the
+    // zoomed card) off layer by layer before folding the pokedex itself.
+    if (closeCardsUI()) return;
     closePokedex();
   }
 });

@@ -81,6 +81,7 @@
                         <button class="iconBtn shinyBtn" title="Toggle shiny" aria-label="Toggle shiny artwork">✨</button>
                         <button class="iconBtn cryBtn" title="Play cry" aria-label="Play the cry">🔊</button>
                         <button class="iconBtn teamBtn" title="Add to team" aria-label="Add to or remove from the team"><img src="./img/pokeball.png" alt="Team"></button>
+                        <button class="iconBtn cardsBtn" title="Trading cards" aria-label="Show this Pokémon's trading cards" hidden>🃏<span class="cardCount"></span></button>
                       </div>
                     </div>
                   </div>
@@ -213,7 +214,27 @@
       Developed by <a href="https://ericthmoritsuka.github.io/" target="_blank" rel="noopener">Eric Moritsuka</a>
       · with AI assistance
       · data from <a href="https://pokeapi.co" target="_blank" rel="noopener">PokéAPI</a>
+      · cards from <a href="https://tcgdex.dev" target="_blank" rel="noopener">TCGdex</a>
     </footer>
+
+    <!-- ================= Trading cards ================= -->
+    <div class="cardsOverlay" hidden>
+      <div class="cardsPanel">
+        <div class="cardsHead">
+          <h3 class="cardsTitle"></h3>
+          <button type="button" class="cardsClose" title="Close" aria-label="Close the card gallery">✕</button>
+        </div>
+        <p class="cardsNote"></p>
+        <ul class="cardsGrid"></ul>
+      </div>
+    </div>
+    <div class="cardZoom" hidden>
+      <div class="zoomPanel">
+        <button type="button" class="zoomClose" title="Close" aria-label="Close the card view">✕</button>
+        <img class="zoomImage" alt="">
+        <div class="zoomInfo"></div>
+      </div>
+    </div>
   </div>
 
   <script>

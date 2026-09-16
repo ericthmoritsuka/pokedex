@@ -6,6 +6,7 @@ import {
   getDefenseMatchups,
 } from "./api.js";
 import { isInTeam, toggleTeamMember } from "./team.js";
+import { updateCardsButton } from "./cards.js";
 import {
   selectedVersionGroups,
   selectedGameLabel,
@@ -352,6 +353,9 @@ export const renderDetails = (pokemon, species, stages, matchups) => {
     "active",
     isInTeam(species.id ?? pokemon.id)
   );
+
+  // Trading cards are also per species: TCGdex indexes them by dex number.
+  updateCardsButton(species.id ?? pokemon.id, displayName(pokemon, species));
 
   setArtwork();
   renderVariants(current);

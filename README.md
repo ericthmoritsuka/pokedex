@@ -7,7 +7,10 @@ Try it live: https://ericthmoritsuka.github.io/pokedex/
 - Search by name or National Dex number; deep links like `#25` jump straight to a Pokémon.
 - Tabs for description, stats, moves (with learn levels), the evolution chain, and breeding/misc data.
 - Shiny artwork toggle and the Pokémon's actual cry.
-- Data, sprites, and type icons come from PokéAPI and its sprite CDN, cached in memory.
+- Trading cards: the 🃏 button counts every TCG card of the selected Pokémon and
+  opens a gallery — click a card for its set, rarity, illustrator, and market price.
+- Data, sprites, and type icons come from PokéAPI and its sprite CDN; card data
+  and scans from [TCGdex](https://tcgdex.dev). Everything is cached in memory.
 
 ## Running
 
