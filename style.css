@@ -2105,12 +2105,17 @@ html.modalLock body {
   right: 10px;
 }
 
-/* ‹ › walk through the gallery without leaving the zoom */
+/* ‹ › walk through the gallery without leaving the zoom; they sit right
+   beside the panel (the zoom backdrop lays out ‹ panel › as a flex row) */
+.cardZoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
 .zoomNav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   border: none;
@@ -2127,12 +2132,11 @@ html.modalLock body {
   background: #fff;
 }
 
-.zoomPrev {
-  left: 10px;
-}
-
-.zoomNext {
-  right: 10px;
+/* a hidden arrow must still hold its spot, or the panel jumps sideways
+   on the first and last card */
+.zoomNav[hidden] {
+  display: block !important;
+  visibility: hidden;
 }
 
 .zoomInfo {
@@ -2202,5 +2206,25 @@ html.modalLock body {
   .zoomInfo {
     padding-top: 0;
     width: 100%;
+  }
+
+  /* no side room on a phone: the arrows float over the panel's edges */
+  .cardZoom {
+    gap: 0;
+  }
+
+  .zoomNav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .zoomPrev {
+    left: 8px;
+  }
+
+  .zoomNext {
+    right: 8px;
   }
 }
